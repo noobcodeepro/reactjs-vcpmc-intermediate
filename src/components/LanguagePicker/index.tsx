@@ -1,6 +1,6 @@
 const LanguagePicker = () => {
   return (
-    <div className="pl-2 pr-1 py-2 left-[1697px] top-[24px] absolute rounded border border-slate-300 justify-start items-center gap-2 inline-flex">
+    <div className="pl-2 pr-1 py-2 left-[1697px] top-[24px] rounded border border-slate-300 justify-start items-center gap-2 inline-flex">
       <div className="text-center text-white text-sm font-normal font-montserrat leading-tight tracking-tight">
         Tiếng Việt
       </div>

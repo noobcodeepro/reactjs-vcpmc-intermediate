@@ -4,6 +4,62 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =============================================================================== */
+/* Input */
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined,
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined.ant-input-disabled,
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined[disabled],
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined:hover,
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined:focus-within {
+  padding-left: 1rem;
+  padding-right: 1.5rem;
+  padding-bottom: 13px;
+  color: white;
+  background-color: #2b2b3f;
+  border: none;
+  border-radius: 8px;
+  height: 48px;
+  padding: 11px 14px 13px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined.ant-input-disabled,
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined[disabled] {
+  background-color: #3e3e50;
+  color: #878890;
+}
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-affix-wrapper
+  .anticon.ant-input-password-icon,
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-affix-wrapper:hover
+  .anticon.ant-input-password-icon {
+  color: #ff7506;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* =============================================================================== */
+/* Button */
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-btn-default:not(:disabled):not(
+    .ant-btn-disabled
+  ):hover {
+  color: white;
+  border-color: white;
+}
+
+/* =============================================================================== */
+
+/* =============================================================================== */
+/* Select */
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-outlined:not(.ant-select-customize-input)
+  .ant-select-selector {
+  color: white;
+  background-color: #1e1e2e;
+  border: 1px solid #ff7506;
+}
+
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-select-outlined:not(.ant-select-disabled):not(
     .ant-select-customize-input
   ):not(.ant-pagination-size-changer):hover
@@ -14,14 +70,6 @@
   .ant-select-selector {
   border-color: #ff7506;
 }
-
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-outlined:not(.ant-select-customize-input)
-  .ant-select-selector {
-  color: white;
-  background-color: #1e1e2e;
-  border: 1px solid #ff7506;
-}
-
 /* Select arrow */
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-select .ant-select-arrow {
   color: #ff7506;
@@ -49,4 +97,30 @@
   .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
   color: white;
   background-color: #3e3e5b;
+}
+
+/* =============================================================================== */
+/* Modal */
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal .ant-modal-header,
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal .ant-modal-content {
+  background-color: black;
+}
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal .ant-modal-title {
+  color: white;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal .ant-modal-close {
+  color: #ff7506;
+}
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal .ant-modal-content button {
+  color: white;
+}
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal input[type='file'] {
+  color: white;
 }

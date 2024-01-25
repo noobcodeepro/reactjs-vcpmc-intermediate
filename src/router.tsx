@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import { GuestLayout, UserLayout } from './layouts';
 import Login from './pages/Auth/Login';
 import ForgotPassword from './pages/Auth/ForgotPassword';
@@ -21,11 +21,13 @@ import Cycle from './pages/Setting/Cycle';
 import UserManual from './pages/Support/UserManual';
 import Download from './pages/Support/Download';
 import Feedback from './pages/Support/Feedback';
+import App from './App';
+import Profile from './pages/Auth/Profile';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to={'/login'} />,
+    element: <App />,
   },
   {
     path: '/',
@@ -45,6 +47,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <UserLayout />,
     children: [
+      {
+        path: '/profile',
+        element: <Profile />,
+      },
       {
         path: '/records',
         element: <Records />,

@@ -10,13 +10,13 @@ import { MenuProps } from 'antd';
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-type NavItemType = {
+export type NavItemType = {
   label?: string;
   to?: string;
   icon?: ReactElement;
   children?: MenuProps['items'];
 };
-type navType = Array<NavItemType>;
+export type navType = Array<NavItemType>;
 export const navList: navType = [
   {
     label: 'Kho bản ghi',
@@ -39,19 +39,19 @@ export const navList: navType = [
 
     children: [
       {
-        key: 'manage/contract',
+        key: '/manage/contract',
         label: <Link to={'/manage/contract'}>Quản lí hợp đồng</Link>,
       },
       {
-        key: 'manage/device',
+        key: '/manage/device',
         label: <Link to={'/manage/device'}>Quản lí thiết bị</Link>,
       },
       {
-        key: 'manage/authority',
+        key: '/manage/authority',
         label: <Link to={'/manage/authority'}>Quản lí ủy quyền</Link>,
       },
       {
-        key: 'manage/usage',
+        key: '/manage/usage',
         label: <Link to={'/manage/usage'}>Quản lí sử dụng</Link>,
       },
     ],
@@ -62,15 +62,15 @@ export const navList: navType = [
 
     children: [
       {
-        key: 'revenue/report',
+        key: '/revenue/report',
         label: <Link to={'/revenue/report'}>Báo cáo doanh thu</Link>,
       },
       {
-        key: 'revenue/contrast-history',
+        key: '/revenue/contrast-history',
         label: <Link to={'/revenue/contrast-history'}>Lịch sử đối soát</Link>,
       },
       {
-        key: 'revenue/distribution',
+        key: '/revenue/distribution',
         label: <Link to={'/revenue/distribution'}>Phân phối doanh thu</Link>,
       },
     ],
@@ -81,23 +81,23 @@ export const navList: navType = [
 
     children: [
       {
-        key: 'setting/authorize',
+        key: '/setting/authorize',
         label: <Link to={'/setting/authorize'}>Phân quyền người dùng</Link>,
       },
       {
-        key: 'setting/configuration',
+        key: '/setting/configuration',
         label: <Link to={'/setting/configuration'}>Cấu hình</Link>,
       },
       {
-        key: 'setting/contract',
+        key: '/setting/contract',
         label: <Link to={'/setting/contract'}>Quản lý hợp đồng</Link>,
       },
       {
-        key: 'setting/work',
+        key: '/setting/work',
         label: <Link to={'/setting/work'}>Thông tin tác phẩm</Link>,
       },
       {
-        key: 'setting/cycle',
+        key: '/setting/cycle',
         label: <Link to={'/setting/cycle'}>Chu kỳ đối soát</Link>,
       },
     ],
@@ -108,15 +108,15 @@ export const navList: navType = [
 
     children: [
       {
-        key: 'support/user-manual',
+        key: '/support/user-manual',
         label: <Link to={'/support/user-manual'}>Hướng dẫn sử dụng</Link>,
       },
       {
-        key: 'support/download',
+        key: '/support/download',
         label: <Link to={'/support/download'}>Tải app</Link>,
       },
       {
-        key: 'support/feedback',
+        key: '/support/feedback',
         label: <Link to={'/support/feedback'}>Feedback</Link>,
       },
     ],

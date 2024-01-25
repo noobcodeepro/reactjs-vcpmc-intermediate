@@ -1,52 +1,100 @@
-import { Checkbox, Form, Input } from 'antd';
-import LanguagePicker from '../../../components/LanguagePicker';
+import { Button, Checkbox, Input } from 'antd';
 import Logo from '../../../components/Logo';
-import { Link } from 'react-router-dom';
+import './login.css';
+import { useState } from 'react';
+import { useAppDispatch } from '../../../contexts/store';
+import { authLogin } from '../../../contexts/Auth/auth.slice';
+// import { signInWithEmailAndPassword } from 'firebase/auth';
+// import { auth } from '../../../lib/firebase';
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberPassword, setRememberPassword] = useState(false);
+  const [error, setError] = useState('');
+  const handleLogin = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    setError('');
+    try {
+      dispatch(authLogin({ email, password }))
+        .unwrap()
+        .then(res => {
+          console.log(res);
+          if (rememberPassword) {
+            const userData = { uid: res.user.uid, email, username: res.user.displayName };
+            localStorage.setItem('USER_INFO', JSON.stringify(userData));
+          }
+        })
+        .catch(err => {
+          setError(err.message);
+        });
+      // const user = userCredential.user;
+      // console.log(userCredential);
+      // const userData = {
+      //   username: user.displayName ? user.displayName : undefined,
+      //   email: email,
+      //   uid: user.uid,
+      // };
+      // if (rememberPassword) {
+      //   localStorage.setItem('USER_INFO', JSON.stringify(userData) || '');
+      // }
+
+      // dispatch(authLogin(userData));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
-      <Logo />
-      <div className="left-[855px] top-[396px] absolute text-white text-4xl font-bold font-montserrat leading-[48px]">
-        Đăng nhập
-      </div>
-      <Form>
-        <div className="left-[724px] top-[472px] absolute flex-col justify-start items-start gap-2 inline-flex">
-          <div className="opacity-70 text-white text-base font-semibold font-montserrat leading-normal">
-            Tên đăng nhập
-          </div>
-          <Input className="w-[471px] pl-4 pr-6 pt-[11px] pb-[13px] text-white bg-[#2B2B3F] focus:bg-transparent focus:border-[#FF7506] hover:bg-transparent hover:border-[#FF7506] rounded-lg" />
-        </div>
-        <div className="left-[724px] top-[572px] absolute flex-col justify-start items-start gap-2 inline-flex">
-          <div className="opacity-70 text-white text-base font-semibold font-montserrat leading-normal">
-            Password
-          </div>
-          <Input
-            type="password"
-            className="w-[471px] pl-4 pr-6 pt-[11px] pb-[13px] text-white bg-[#2B2B3F] focus:bg-transparent focus:border-[#FF7506] hover:bg-transparent hover:border-[#FF7506] rounded-lg"
+      <div className="w-[471px] mt-28 bg-red z-1 text-white font-montserrat">
+        <Logo />
+        <div className="form__title py-10">Đăng nhập</div>
+
+        <label
+          className="label opacity-70 text-white text-base font-semibold font-['Montserrat'] leading-normal"
+          htmlFor=""
+        >
+          Tên đăng nhập
+        </label>
+        <Input
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          className={`input ${error && 'error'}`}
+        />
+
+        <label className="label tracking" htmlFor="">
+          Password
+        </label>
+        <Input.Password
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className={`input__password input ${error && 'error'}`}
+        />
+
+        {error && <span className="text-red-500 block mt-4">{error}</span>}
+
+        <div className="remember-password">
+          <Checkbox
+            id="checkbox"
+            checked={rememberPassword}
+            onChange={() => setRememberPassword(prev => !prev)}
           />
-        </div>
-        <div className="px-6 py-4 left-[856px] top-[744px] absolute bg-[#FF7506] rounded-lg justify-center items-center gap-2 inline-flex">
-          <button className="w-40 text-center text-white text-lg font-medium font-montserrat leading-normal tracking-tight">
-            Đăng nhập
-          </button>
-        </div>
-        <div className="left-[724px] top-[672px] absolute justify-start items-start gap-2 inline-flex">
-          <Form.Item name="remember" noStyle>
-            <Checkbox checked className="bg-[#1E1E2E]" />
-          </Form.Item>
-          <div className="text-white text-base font-normal font-montserrat leading-normal">
+          <label htmlFor="checkbox" className="remember-password__label">
             Ghi nhớ đăng nhập
-          </div>
+          </label>
         </div>
-      </Form>
-      <Link
-        to={'/forgot-password'}
-        className="left-[890px] top-[1005px] absolute text-[#FF7506] text-base font-semibold font-montserrat underline leading-normal"
-      >
-        Quên mật khẩu?
-      </Link>
-      <LanguagePicker />
+
+        <div className="w-fit mx-auto mt-8">
+          <Button onClick={handleLogin} className="button w-[208px] h-[56px]">
+            Đăng nhập
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <span className="link">Quên mật khẩu?</span>
+      </div>
     </>
   );
 };
