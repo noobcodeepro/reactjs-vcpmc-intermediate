@@ -54,25 +54,6 @@
   margin: 0 6px;
 }
 
-.button {
-  background-color: #ff7506;
-  color: white;
-  font-size: 18px;
-  line-height: 1.5rem;
-  padding: 12px;
-  margin: 16px 24px;
-  outline: none;
-  border: none;
-  border-radius: 8px;
-}
-
-.button:hover > span,
-.button:focus-within > span,
-.button:active > span {
-  color: white;
-  opacity: 70%;
-}
-
 .link {
   color: #ff7506;
   text-decoration: underline;

@@ -22,7 +22,7 @@ const Login = () => {
         .then(res => {
           console.log(res);
           if (rememberPassword) {
-            const userData = { uid: res.user.uid, email, username: res.user.displayName };
+            const userData = res.user;
             localStorage.setItem('USER_INFO', JSON.stringify(userData));
           }
         })
@@ -85,8 +85,11 @@ const Login = () => {
           </label>
         </div>
 
-        <div className="w-fit mx-auto mt-8">
-          <Button onClick={handleLogin} className="button w-[208px] h-[56px]">
+        <div className="w-fit mx-auto mt-8 ">
+          <Button
+            onClick={handleLogin}
+            className="button w-[208px] h-[56px] mt-[16px] mx-[24px] p-3"
+          >
             Đăng nhập
           </Button>
         </div>
