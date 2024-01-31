@@ -4,11 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  background-color: #1e1e2e;
+}
 /* =============================================================================== */
 /* Input */
 /* =============================================================================== */
-
+:where(.css-dev-only-do-not-override-1y3z18n).ant-input,
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined,
+:where(.css-dev-only-do-not-override-1y3z18n).ant-input-outlined:hover,
+:where(.css-dev-only-do-not-override-1y3z18n).ant-input-outlined:focus-within,
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined.ant-input-disabled,
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined[disabled],
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined:hover,

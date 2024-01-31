@@ -1,10 +1,18 @@
 export interface Record {
+  id: string;
   name: string;
-  isrcId: string;
+  isrc_id: string;
+  duration: number;
   singer: string;
   author: string;
   producer: string;
-  musicType: string;
-  coverImage: string;
-  dateExpired: Date;
+  category: string;
+  createAt: number;
+  uploader: string;
+  approvedBy: string;
+  approvedAt: number;
+  contractId: string;
+  authorizationDate: number;
+  expireDate: number;
+  format: 'audio' | 'video';
 }

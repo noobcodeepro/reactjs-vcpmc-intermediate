@@ -59,7 +59,7 @@ export const authLogin = createAsyncThunk(
 export const updateAvatar = createAsyncThunk(
   'auth/updateAvatar',
   async ({ file, currentUser }: { file: File; currentUser: User }) => {
-    const fileRef = ref(storage, currentUser.uid + '.png');
+    const fileRef = ref(storage, 'avatars/' + currentUser.uid + '.png');
 
     await uploadBytes(fileRef, file);
     const photoURL = await getDownloadURL(fileRef);

@@ -1,35 +1,44 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Record } from '../../types/record.type';
+import { db } from '../../lib/firebase';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
-const initialState: Array<Record> = [
-  {
-    name: 'Mất em',
-    isrcId: 'KRA40105463',
-    singer: 'Phan Mạnh Quỳnh',
-    author: 'Phan Mạnh Quỳnh',
-    producer: 'Phan Mạnh Quỳnh',
-    musicType: 'Ballad',
-    coverImage:
-      'https://plus.unsplash.com/premium_photo-1680079229453-c6b54d3911e9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8',
-    dateExpired: new Date('2023-11-20T00:00:00'),
-  },
-  {
-    name: 'Ergonomic Fresh Chips',
-    isrcId: 'KRA40105519',
-    singer: 'Chillies',
-    author: 'Chillies',
-    producer: 'Chillies',
-    musicType: 'Ballad',
-    coverImage:
-      'https://plus.unsplash.com/premium_photo-1680079229453-c6b54d3911e9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8',
-    dateExpired: new Date('2023-11-20T00:00:00'),
-  },
-];
+interface IState {
+  records: Array<Record>;
+  isLoading: boolean;
+}
+
+const initialState: IState = {
+  records: [],
+  isLoading: true,
+};
+
+const recordCollection = collection(db, 'records');
+
+export const getRecords = createAsyncThunk<Record[]>('records/getAll', async () => {
+  const querySnapshot = await getDocs(query(recordCollection, orderBy('expireDate', 'desc')));
+
+  return querySnapshot.docs.map(doc => {
+    return {
+      ...(doc.data() as Omit<Record, 'id'>),
+      id: doc.id,
+    };
+  });
+});
 
 export const recordSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {},
+  extraReducers: builder =>
+    builder
+      .addCase(getRecords.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(getRecords.fulfilled, (state, action) => {
+        state.records = action.payload;
+        state.isLoading = false;
+      }),
 });
 
 // Action creators are generated for each case reducer function
