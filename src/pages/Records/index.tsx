@@ -1,6 +1,11 @@
-import { AppstoreOutlined, SearchOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  EditOutlined,
+  SearchOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
 import { Input, Select } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { TableProps } from 'antd';
 import { Link } from 'react-router-dom';
 import { RootState, useAppDispatch } from '../../contexts/store';
@@ -11,7 +16,7 @@ import Table from '../../components/Table';
 import { formatTime } from '../../utils/formatTime';
 import { parseToInt } from '../../utils/parseToInt';
 import { CheckExpired } from './../../components/CheckExpired/index';
-
+import RecordGridList from './RecordGridList';
 type ColumnsType<T extends object> = TableProps<T>['columns'];
 
 export interface ExtendedRecord extends Record {
@@ -122,6 +127,7 @@ const Records = () => {
   }));
   const isLoading = useSelector((state: RootState) => state.record.isLoading);
 
+  const [viewGrid, setViewGrid] = useState(false);
   useEffect(() => {
     dispatch(getRecords())
       .unwrap()
@@ -145,8 +151,16 @@ const Records = () => {
         </div>
       </div>
       <div className="w-[1541px] left-[229px] top-[294px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-between items-start inline-flex">
-        {!isLoading && <Table columns={columns} dataSource={data} />}
-        {isLoading && <Table columns={loadingColumn} dataSource={[{ text: 'Loading...' }]} />}
+        {!viewGrid ? (
+          <>
+            {!isLoading && <Table columns={columns} dataSource={data} />}
+            {isLoading && <Table columns={loadingColumn} dataSource={[{ text: 'Loading...' }]} />}
+          </>
+        ) : (
+          <>
+            <RecordGridList data={data} />
+          </>
+        )}
       </div>
       <div className="left-[229px] top-[86px] absolute text-white text-4xl font-bold font-['Montserrat'] leading-[48px]">
         Kho bản ghi
@@ -201,20 +215,24 @@ const Records = () => {
       <div className="left-[1169px] top-[238px] absolute text-white text-base font-semibold font-['Montserrat'] leading-normal">
         Trạng thái:
       </div>
-      <div className="w-8 h-8 left-[1690px] top-[238px] absolute">
-        <div className="w-8 h-8 left-0 top-0 absolute">
-          <UnorderedListOutlined style={{ fontSize: '30px', color: '#C8C8DB' }} />
+      <div className="w-8 h-8 left-[1690px] top-[238px] absolute cursor-pointer">
+        <div className="w-8 h-8 left-0 top-0 absolute" onClick={() => setViewGrid(prev => !prev)}>
+          <UnorderedListOutlined
+            style={{ fontSize: '30px', color: `${viewGrid ? '#C8C8DB' : '#FF7506'}` }}
+          />
         </div>
       </div>
-      <div className="w-8 h-8 left-[1738px] top-[238px] absolute">
-        <div className="w-8 h-8 left-0 top-0 absolute">
-          <AppstoreOutlined style={{ fontSize: '30px', color: '#C8C8DB' }} />
+      <div className="w-8 h-8 left-[1738px] top-[238px] absolute cursor-pointer">
+        <div className="w-8 h-8 left-0 top-0 absolute" onClick={() => setViewGrid(prev => !prev)}>
+          <AppstoreOutlined
+            style={{ fontSize: '30px', color: `${viewGrid ? '#FF7506' : '#C8C8DB'}` }}
+          />
         </div>
       </div>
       <div className="left-[1810px] top-[222px] absolute flex-col justify-start items-start inline-flex">
         <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
-            <div className="w-8 h-8 relative" />
+            <EditOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />
           </div>
           <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
             Quản lý

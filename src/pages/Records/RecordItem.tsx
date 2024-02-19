@@ -1,24 +1,5 @@
 import React from 'react';
 
-// interface IRecord {
-//   name: string;
-//   isrc_id: string;
-//   duration: string (second);
-//   singer: string;
-//   author: string;
-//   producer: string;
-//   category: string;
-//   avatar: file;
-//   createAt: dayjs.unix(number);
-//   uploader: string;
-//   approvedBy: string | auto;
-//   approvedAt: dayjs.unix(number);
-//   contractId: string;
-//   authorizationDate: dayjs.unix(number);
-//   expireDate: dayjs.unix(number);
-//   format: 'audio' | 'video';
-// }
-
 const RecordItem = () => {
   return (
     <div>

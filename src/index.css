@@ -212,3 +212,7 @@ input[type='password'].ant-input {
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-picker-dropdown .ant-picker-content th {
   color: inherit;
 }
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-card .ant-card-body {
+  padding: 18px;
+}

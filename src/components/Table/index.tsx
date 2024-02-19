@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Table as AntdTable, ConfigProvider, TableProps } from 'antd';
 import { ExtendedRecord } from '../../pages/Records';
 
-import './table.css';
 import Pagination from '../Pagination';
+import './table.css';
 
 type TableColumnType = ExtendedRecord | { text: string };
 type ColumnsType<T extends TableColumnType> = TableProps<T>['columns'];

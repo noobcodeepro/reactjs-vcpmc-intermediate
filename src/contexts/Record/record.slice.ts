@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Record } from '../../types/record.type';
-import { db } from '../../lib/firebase';
+import { db, storage } from '../../lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { getDownloadURL, ref } from 'firebase/storage';
 
 interface IState {
   records: Array<Record>;
@@ -13,21 +14,28 @@ const initialState: IState = {
   isLoading: true,
 };
 
-const recordCollection = collection(db, 'records');
+export const recordCollection = collection(db, 'records');
 
 export const getRecords = createAsyncThunk<Record[]>('records/getAll', async () => {
   const querySnapshot = await getDocs(query(recordCollection, orderBy('expireDate', 'desc')));
 
-  return querySnapshot.docs.map(doc => {
-    return {
-      ...(doc.data() as Omit<Record, 'id'>),
-      id: doc.id,
-    };
-  });
+  const recordsWithUrls = await Promise.all(
+    querySnapshot.docs.map(async doc => {
+      const fileRef = ref(storage, 'records/' + doc.id + '.jpg');
+      const photoUrl = await getDownloadURL(fileRef);
+
+      return {
+        ...(doc.data() as Omit<Record, 'id'>),
+        id: doc.id,
+        photoUrl,
+      };
+    }),
+  );
+  return recordsWithUrls;
 });
 
 export const recordSlice = createSlice({
-  name: 'counter',
+  name: 'record',
   initialState,
   reducers: {},
   extraReducers: builder =>

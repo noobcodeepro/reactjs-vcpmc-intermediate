@@ -38,7 +38,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-[170px] h-[1080px] flex flex-col justify-start items-center pt-12 bg-slate-950 rounded-tr-3xl rounded-br-3xl">
+    <div className="w-[170px] h-[1080px] flex flex-col justify-start items-center pt-12 bg-slate-950 rounded-tr-3xl rounded-br-3xl z-50">
       <div className="w-24 h-24 left-[37px] top-[39px] rounded-[70px] mb-24 bg-white"></div>
       <div className="w-full h-[72px] text-center text-white">
         {navList.map(n => (

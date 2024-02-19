@@ -9,6 +9,7 @@ export interface Record {
   category: string;
   createAt: number;
   uploader: string;
+  photoUrl?: string;
   approvedBy: string;
   approvedAt: number;
   contractId: string;

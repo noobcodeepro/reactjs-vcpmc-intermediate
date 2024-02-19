@@ -1,6 +1,18 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../contexts/store';
+import { useEffect } from 'react';
+import { getPlaylists } from '../../contexts/Playlist/playlist.slice';
 
 const Playlist = () => {
+  const dispatch = useAppDispatch();
+  const playlists = useSelector((state: RootState) => state.playlist.playlists) || [];
+
+  useEffect(() => {
+    dispatch(getPlaylists())
+      .unwrap()
+      .then(res => console.log(res));
+  }, [dispatch]);
+
   return (
     <>
       <div className="w-[517px] px-6 py-3 left-[229px] top-[158px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
