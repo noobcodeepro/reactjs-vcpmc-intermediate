@@ -94,20 +94,19 @@ input[type='password'].ant-input {
 /* Select */
 /* =============================================================================== */
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-outlined:not(.ant-select-customize-input)
-  .ant-select-selector {
+.ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
   color: white;
   background-color: #1e1e2e;
   border: 1px solid #ff7506;
 }
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-outlined:not(.ant-select-disabled):not(
-    .ant-select-customize-input
-  ):not(.ant-pagination-size-changer):hover
+.ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(
+    .ant-pagination-size-changer
+  ):hover
   .ant-select-selector,
-.ant-select-focused:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-outlined:not(
-    .ant-select-disabled
-  ):not(.ant-select-customize-input):not(.ant-pagination-size-changer)
+.ant-select-focused.ant-select-outlined:not(.ant-select-disabled):not(
+    .ant-select-customize-input
+  ):not(.ant-pagination-size-changer)
   .ant-select-selector {
   border-color: #ff7506;
 }
@@ -116,30 +115,27 @@ input[type='password'].ant-input {
 /* Select arrow */
 /* =============================================================================== */
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select .ant-select-arrow {
+.ant-select .ant-select-arrow {
   color: #ff7506;
   padding-right: 5px;
 }
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-single.ant-select-open
-  .ant-select-selection-item {
+.ant-select-single.ant-select-open .ant-select-selection-item {
   color: white;
 }
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-dropdown {
+.ant-select-dropdown {
   background-color: #3e3e5b;
   color: white;
 }
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-outlined:not(.ant-select-customize-input)
-  .ant-select-selector:hover {
+.ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector:hover {
   border: 1px solid #ff7506;
 }
 
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-dropdown .ant-select-item-option-content,
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-dropdown,
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-select-dropdown
-  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+.ant-select-dropdown .ant-select-item-option-content,
+.ant-select-dropdown,
+.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
   color: white;
   background-color: #3e3e5b;
 }

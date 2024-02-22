@@ -1,0 +1,13 @@
+.ant-drawer .ant-drawer-header {
+  display: none;
+}
+
+.ant-drawer .ant-drawer-body {
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.ant-drawer .ant-drawer-content {
+  background-color: transparent;
+}

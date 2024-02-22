@@ -1,18 +1,170 @@
-import { SearchOutlined } from '@ant-design/icons';
-import React from 'react';
-import Pagination from '../../../components/Pagination';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Input, Select, TableProps } from 'antd';
+import { useEffect } from 'react';
+import { RootState, useAppDispatch } from '../../../contexts/store';
+import {
+  IAuthorizeContract,
+  getContracts,
+} from '../../../contexts/Manage/Contract/Authorize.slice';
+import { CheckExpired } from '../../../components/CheckExpired';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Table from '../../../components/Table';
+import { getDateString } from '../../../utils/getDateString';
+// import BreadCrumb from '../../../components/BreadCrumb';
+
+interface ExtendedContract extends IAuthorizeContract {
+  key: string;
+  index: number;
+}
+
+type ColumnsType<T extends object> = TableProps<T>['columns'];
+
+const columns: ColumnsType<ExtendedContract> = [
+  {
+    title: 'STT',
+    dataIndex: 'index',
+    key: 'index',
+    align: 'right',
+    render: text => <a>{text}</a>,
+  },
+  {
+    title: 'Số hợp đồng',
+    dataIndex: 'contractId',
+    key: 'contractId',
+  },
+  {
+    title: 'Tên hợp đồng',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Người uỷ quyền',
+    dataIndex: 'authorizer',
+    key: 'authorizer',
+    // align: 'left',
+    // className: 'px-12',
+    // render: (duration: string) => (
+    //   <span className="block w-fit ml-auto mr-12">{formatTime(parseToInt(duration))}</span>
+    // ),
+  },
+  {
+    title: 'Quyền sở hữu',
+    key: 'ownership',
+    dataIndex: 'ownership',
+    render: (ships: Array<number>) => (
+      <div>
+        {ships.map(ship => {
+          switch (ship) {
+            case 0:
+              return 'Người biểu diễn';
+              break;
+            case 1:
+              return 'Nhà sản xuất';
+              break;
+            default:
+              return '';
+          }
+        })}
+      </div>
+    ),
+  },
+  {
+    title: 'Hiệu lực hợp đồng',
+    key: 'endDate',
+    dataIndex: 'endDate',
+    render: (time: number) => <CheckExpired timestamp={time} />,
+  },
+  {
+    title: 'Ngày tạo',
+    key: 'createAt',
+    dataIndex: 'createAt',
+    render: (time: number) => <span>{getDateString(time)}</span>,
+  },
+  {
+    title: '',
+    key: 'id',
+    dataIndex: 'id',
+    render: (id: string) => (
+      <Link className="text-[#FF7506] text-xs underline" to={`/manage/contract/d/${id}`}>
+        Xem chi tiết
+      </Link>
+    ),
+  },
+  {
+    title: '',
+    key: 'id',
+    dataIndex: ['endDate'],
+    render: (id: string, contract) => (
+      <Link
+        className={`text-[#FF7506] text-xs underline ${contract.cancelReason ? 'block' : 'hidden'}`}
+        to={`contract/l/${id}`}
+      >
+        Lí do hủy
+      </Link>
+    ),
+  },
+];
 
 const Contract = () => {
+  const dispatch = useAppDispatch();
+  const contract = useSelector((state: RootState) => state.authorizedContract.authorizedContract);
+  const data: Array<ExtendedContract> = contract.map((c, i) => ({
+    index: i + 1,
+    key: c.contractId,
+    ...c,
+  }));
+  useEffect(() => {
+    dispatch(getContracts())
+      .unwrap()
+      .then(res => {
+        console.log(res);
+      });
+  }, [dispatch]);
+
+  const breadCrumbItems = [
+    {
+      title: (
+        <Link to={'/contract'}>
+          <div className="text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+            Quản lí
+          </div>
+        </Link>
+      ),
+    },
+    {
+      title: (
+        <div className=" text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+          Quản lí hợp đồng
+        </div>
+      ),
+    },
+  ];
   return (
     <>
-      <div className="w-[501px] px-6 py-3 left-[1261px] top-[250px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
-        <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
-          Tên hợp đồng, số hợp đồng, người uỷ quyền...
-        </div>
-        <SearchOutlined style={{ fontSize: '16px', color: '#fff' }} />
+      <div className="p-0.5 left-[229px] top-[86px] absolute opacity-50 justify-start items-center gap-1 inline-flex">
+        <Breadcrumb
+          separator={
+            <>
+              <div className="text-white">{'>'}</div>
+            </>
+          }
+          items={breadCrumbItems}
+        />
       </div>
-      <div className="h-[727px] px-6 py-4 left-[229px] top-[322px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
-        <div className="self-stretch justify-start items-start inline-flex">
+      <div className="w-[501px] left-[1261px] top-[250px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+        <Input
+          type="text"
+          className="px-6 py-3 text-white bg-transparent focus:bg-transparent hover:bg-transparent placeholder:text-[#727288] border-none focus:ring-0 h-full text-base font-normal font-['Montserrat'] leading-normal"
+          placeholder="Tên hợp đồng, số hợp đồng, người uỷ quyền..."
+        />
+        <div className="p-3 text-white">
+          <SearchOutlined style={{ fontSize: '16px' }} />
+        </div>
+      </div>
+
+      <div className="h-[727px]  left-[229px] top-[322px] absolute rounded-2xl flex-col inline-flex">
+        {/* <div className="self-stretch justify-start items-start inline-flex">
           <div className="w-[99px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
               <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
@@ -716,8 +868,8 @@ const Contract = () => {
               </div>
             </div>
           </div>
-        </div>
-        <Pagination />
+        </div> */}
+        <Table columns={columns} dataSource={data} />
       </div>
       <div className="left-[229px] top-[186px] absolute rounded-3xl border border-orange-500 justify-start items-center inline-flex">
         <div className="px-6 py-2 bg-amber-700 rounded-3xl justify-start items-start gap-2.5 flex">
@@ -736,22 +888,32 @@ const Contract = () => {
       </div>
 
       <div className="left-[1810px] top-[250px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
-          <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
-            <div className="w-8 h-8 relative" />
+        <Link
+          to={'/manage/contract/authorization-contract/add'}
+          className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+        >
+          <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-center items-center gap-2.5 inline-flex">
+            <div className="w-8 h-8 relative p-1.5">
+              <PlusOutlined className="text-[#FF7506] text-xl" />
+            </div>
           </div>
           <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
             Thêm <br />
             hợp đồng
           </div>
-        </div>
+        </Link>
       </div>
-      <div className="w-40 h-10 pl-4 pr-3 py-3 left-[363px] top-[258px] absolute bg-zinc-800 rounded-lg border border-orange-500 justify-between items-center inline-flex">
-        <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
-          Tất cả
-        </div>
-        <div className="w-6 h-6 relative" />
-      </div>
+
+      <Select
+        defaultValue={-1}
+        options={[
+          { value: -1, label: 'Tất cả' },
+          { value: 0, label: 'Người biểu diễn' },
+          { value: 1, label: 'Nhà sản xuất' },
+        ]}
+        className="w-[160px] h-10 left-[363px] top-[258px] absolute ring-0 bg-zinc-800 text-violet-50 rounded-lg justify-between items-center inline-flex"
+      />
+
       <div className="left-[229px] top-[266px] absolute text-white text-base font-semibold font-['Montserrat'] leading-normal">
         Quyền sở hữu:
       </div>
@@ -759,12 +921,17 @@ const Contract = () => {
         <div className="text-white text-base font-semibold font-['Montserrat'] leading-normal">
           Hiệu lực hợp đồng:
         </div>
-        <div className="w-[135px] h-10 pl-4 pr-3 py-3 bg-zinc-800 rounded-lg border border-orange-500 justify-between items-center flex">
-          <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
-            Tất cả
-          </div>
-          <div className="w-6 h-6 relative" />
-        </div>
+        <Select
+          defaultValue={0}
+          options={[
+            { value: 0, label: 'Tất cả' },
+            { value: 1, label: 'Mới' },
+            { value: 2, label: 'Còn thời hạn' },
+            { value: 3, label: 'Hết hạn' },
+            { value: -1, label: 'Hủy' },
+          ]}
+          className="w-[131px] h-10  ring-0 bg-zinc-800 text-violet-50 rounded-lg justify-between items-center inline-flex"
+        />
       </div>
     </>
   );

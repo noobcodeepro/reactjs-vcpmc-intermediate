@@ -3,8 +3,9 @@ import Navbar from '../Navbar';
 import Header from '../Header';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../contexts/store';
+import DrawerNavbar from '../Navbar/DrawerNavbar';
 
-const UserLayout = () => {
+const UserLayout = ({ isDrawer = false }) => {
   const user = useSelector((state: RootState) => state.auth.user);
   return (
     <>
@@ -16,7 +17,7 @@ const UserLayout = () => {
         <>
           <div className="w-full min-h-[1080px] bg-[#1E1E2E]">
             <Header />
-            <Navbar />
+            {isDrawer ? <DrawerNavbar /> : <Navbar />}
             <Outlet />
           </div>
         </>

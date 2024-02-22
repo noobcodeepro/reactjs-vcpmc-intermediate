@@ -5,7 +5,7 @@ import ForgotPassword from './pages/Auth/ForgotPassword';
 import Records from './pages/Records';
 import Playlist from './pages/Playlist';
 import PlaySchedule from './pages/PlaySchedule';
-import BreadCumb from './components/BreadCumb';
+import BreadCrumb from './components/BreadCrumb';
 import Contract from './pages/Manage/Contract';
 import Device from './pages/Manage/Device';
 import Authority from './pages/Manage/Authority';
@@ -23,6 +23,8 @@ import Download from './pages/Support/Download';
 import Feedback from './pages/Support/Feedback';
 import App from './App';
 import Profile from './pages/Auth/Profile';
+import ContractDetail from './pages/Manage/Contract/Authorization/ContractDetail';
+import AddAuthorizedContract from './pages/Manage/Contract/Authorization/AddContract';
 
 const router = createBrowserRouter([
   {
@@ -65,7 +67,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/manage',
-        element: <BreadCumb />,
+        element: <BreadCrumb />,
         children: [
           {
             path: '/manage/contract',
@@ -87,7 +89,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/revenue',
-        element: <BreadCumb />,
+        element: <BreadCrumb />,
         children: [
           {
             path: '/revenue/report',
@@ -105,7 +107,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/setting',
-        element: <BreadCumb />,
+        element: <BreadCrumb />,
         children: [
           {
             path: '/setting/authorize',
@@ -131,7 +133,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/support',
-        element: <BreadCumb />,
+        element: <BreadCrumb />,
         children: [
           {
             path: '/support/user-manual',
@@ -146,6 +148,20 @@ const router = createBrowserRouter([
             element: <Feedback />,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: <UserLayout isDrawer={true} />,
+    children: [
+      {
+        path: '/manage/contract/d/:id',
+        element: <ContractDetail />,
+      },
+      {
+        path: '/manage/contract/authorization-contract/add',
+        element: <AddAuthorizedContract />,
       },
     ],
   },

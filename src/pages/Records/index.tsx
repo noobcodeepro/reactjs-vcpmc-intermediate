@@ -19,7 +19,7 @@ import { CheckExpired } from './../../components/CheckExpired/index';
 import RecordGridList from './RecordGridList';
 type ColumnsType<T extends object> = TableProps<T>['columns'];
 
-export interface ExtendedRecord extends Record {
+interface ExtendedRecord extends Record {
   key: string;
   index: number;
 }
