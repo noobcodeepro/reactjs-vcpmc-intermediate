@@ -1,15 +1,17 @@
 import {
   AppstoreOutlined,
+  CheckOutlined,
+  CloseOutlined,
   EditOutlined,
   SearchOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { Input, Select } from 'antd';
+import { Breadcrumb, Button, Form, Input, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import type { TableProps } from 'antd';
 import { Link } from 'react-router-dom';
 import { RootState, useAppDispatch } from '../../contexts/store';
-import { getRecords } from '../../contexts/Record/record.slice';
+import { approveRecord, denyApproveRecord, getRecords } from '../../contexts/Record/record.slice';
 import { useSelector } from 'react-redux';
 import { Record } from '../../types/record.type';
 import Table from '../../components/Table';
@@ -17,9 +19,11 @@ import { formatTime } from '../../utils/formatTime';
 import { parseToInt } from '../../utils/parseToInt';
 import { CheckExpired } from './../../components/CheckExpired/index';
 import RecordGridList from './RecordGridList';
+import TextArea from 'antd/es/input/TextArea';
+import { useForm } from 'antd/es/form/Form';
 type ColumnsType<T extends object> = TableProps<T>['columns'];
 
-interface ExtendedRecord extends Record {
+export interface ExtendedRecord extends Record {
   key: string;
   index: number;
 }
@@ -117,24 +121,76 @@ const loadingColumn: ColumnsType<{ text: string }> = [
   },
 ];
 
+const breadCrumbItems = [
+  {
+    title: (
+      <Link to={'/record'}>
+        <div className="text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+          Kho bản ghi
+        </div>
+      </Link>
+    ),
+  },
+  {
+    title: (
+      <div className=" text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+        Quản lí phê duyệt
+      </div>
+    ),
+  },
+];
+
 const Records = () => {
   const dispatch = useAppDispatch();
   const records = useSelector((state: RootState) => state.record.records) || [];
+  const isLoading = useSelector((state: RootState) => state.record.isLoading);
+  const [form] = useForm();
   const data: ExtendedRecord[] = records.map((record, index) => ({
     ...record,
     key: record.id,
     index: index + 1,
   }));
-  const isLoading = useSelector((state: RootState) => state.record.isLoading);
+
+  const filterData = data.filter(d => d.approvedAt !== -1 && d.denyReason != '');
+  const notApproveData = data.filter(d => d.approvedAt === -1);
 
   const [viewGrid, setViewGrid] = useState(false);
+  const [approveMode, setApproveMode] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [denyApproveModal, setDenyApproveModal] = useState(false);
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const handleApprove = () => {
+    dispatch(approveRecord(selectedRowKeys));
+  };
+
+  const handleDenyApprove = () => {
+    setDenyApproveModal(true);
+
+    dispatch(
+      denyApproveRecord({ idList: selectedRowKeys, denyReason: form.getFieldValue('denyReason') }),
+    ).then(() => {
+      setDenyApproveModal(false);
+    });
+  };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
   useEffect(() => {
-    dispatch(getRecords())
-      .unwrap()
-      .then(res => {
-        console.log(res);
-      });
-  }, [dispatch]);
+    const fetchData = () => {
+      dispatch(getRecords())
+        .unwrap()
+        .then(res => {
+          console.log(res);
+        });
+    };
+    fetchData();
+  }, [dispatch, denyApproveModal]);
 
   // Example usage:
 
@@ -153,17 +209,37 @@ const Records = () => {
       <div className="w-[1541px] left-[229px] top-[294px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-between items-start inline-flex">
         {!viewGrid ? (
           <>
-            {!isLoading && <Table columns={columns} dataSource={data} />}
-            {isLoading && <Table columns={loadingColumn} dataSource={[{ text: 'Loading...' }]} />}
+            {approveMode && (
+              <>
+                <Table rowSelection={rowSelection} columns={columns} dataSource={notApproveData} />
+              </>
+            )}
+            {!isLoading && !approveMode && <Table columns={columns} dataSource={filterData} />}
+            {isLoading && !approveMode && (
+              <Table columns={loadingColumn} dataSource={[{ text: 'Loading...' }]} />
+            )}
           </>
         ) : (
           <>
-            <RecordGridList data={data} />
+            <RecordGridList data={filterData} />
           </>
         )}
       </div>
-      <div className="left-[229px] top-[86px] absolute text-white text-4xl font-bold font-['Montserrat'] leading-[48px]">
-        Kho bản ghi
+
+      <div className="left-[229px] top-[86px] absolute text-4xl font-bold font-['Montserrat'] leading-[48px]">
+        {approveMode && (
+          <div className="p-0.5 opacity-50 justify-start items-center gap-1 flex">
+            <Breadcrumb
+              separator={
+                <>
+                  <div className="text-white">{'>'}</div>
+                </>
+              }
+              items={breadCrumbItems}
+            />
+          </div>
+        )}
+        <div className="text-white leading-[48px]">Kho bản ghi</div>
       </div>
       <Select
         defaultValue={'all'}
@@ -230,19 +306,92 @@ const Records = () => {
         </div>
       </div>
       <div className="left-[1810px] top-[222px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
-          <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
-            <EditOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />
-          </div>
-          <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
-            Quản lý
-            <br />
-            phê duyệt
-          </div>
-        </div>
+        {!approveMode && (
+          <>
+            <div
+              onClick={() => setApproveMode(true)}
+              className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+            >
+              <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
+                <EditOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />
+              </div>
+              <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
+                Quản lý
+                <br />
+                phê duyệt
+              </div>
+            </div>
+          </>
+        )}
+
+        {approveMode && (
+          <>
+            <div
+              onClick={handleApprove}
+              className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+            >
+              <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
+                <CheckOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />
+              </div>
+              <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
+                Phê duyệt
+              </div>
+            </div>
+
+            <div
+              onClick={() => setDenyApproveModal(true)}
+              className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+            >
+              <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
+                <CloseOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />
+              </div>
+              <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
+                Từ chối
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
-      {/*  */}
+      {/* Deny Approve Modal */}
+      {denyApproveModal && (
+        <Modal
+          width={719}
+          title={<div className="text-center mb-12">Lý do từ chối phê duyệt</div>}
+          centered
+          open={denyApproveModal}
+          footer={null}
+        >
+          <Form form={form} onFinish={handleDenyApprove}>
+            <Form.Item name={'denyReason'}>
+              <TextArea
+                style={{ height: 218, resize: 'none' }}
+                color="white"
+                placeholder="Cho chúng tôi biết lý do bạn muốn từ chối phê duyệt bản ghi này..."
+              ></TextArea>
+            </Form.Item>
+
+            <div className="flex items-center justify-center gap-4 w-full py-8">
+              <Form.Item>
+                <Button
+                  onClick={() => setDenyApproveModal(false)}
+                  className="text-[#FF7506]  w-[168px] px-6 py-3 h-[48px] text-base font-semibold leading-6 border border-[#FF7506] outline-none"
+                >
+                  Hủy
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  htmlType="submit"
+                  className="text-white bg-[#FF7506] w-[168px] px-6 py-3 h-[48px] text-base font-semibold leading-6 border-none outline-none"
+                >
+                  Tải lên
+                </Button>
+              </Form.Item>
+            </div>
+          </Form>
+        </Modal>
+      )}
     </>
   );
 };

@@ -8,6 +8,7 @@ export interface Record {
   producer: string;
   category: string;
   createAt: number;
+  denyReason: string;
   uploader: string;
   photoUrl?: string;
   approvedBy: string;

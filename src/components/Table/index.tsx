@@ -4,6 +4,7 @@ import { ExtendedRecord } from '../../pages/Records';
 
 import Pagination from '../Pagination';
 import './table.css';
+import { TableRowSelection } from 'antd/es/table/interface';
 
 type TableColumnType = ExtendedRecord | { text: string };
 type ColumnsType<T extends TableColumnType> = TableProps<T>['columns'];
@@ -11,10 +12,12 @@ type ColumnsType<T extends TableColumnType> = TableProps<T>['columns'];
 function Table<T extends TableColumnType>({
   columns,
   dataSource,
+  rowSelection,
   ...props
 }: {
   columns: ColumnsType<T>;
   dataSource: Array<T>;
+  rowSelection?: TableRowSelection<T>;
 }) {
   const [pageSize, setPageSize] = useState<number>(16);
   const [current, setCurrent] = useState(1);
@@ -45,6 +48,7 @@ function Table<T extends TableColumnType>({
       }}
     >
       <AntdTable
+        rowSelection={rowSelection}
         {...props}
         columns={columns}
         dataSource={dataSource}

@@ -25,6 +25,7 @@ import App from './App';
 import Profile from './pages/Auth/Profile';
 import ContractDetail from './pages/Manage/Contract/Authorization/ContractDetail';
 import AddAuthorizedContract from './pages/Manage/Contract/Authorization/AddContract';
+import RecordContractAdd from './pages/Manage/Contract/Authorization/RecordContractAdd';
 
 const router = createBrowserRouter([
   {
@@ -162,6 +163,10 @@ const router = createBrowserRouter([
       {
         path: '/manage/contract/authorization-contract/add',
         element: <AddAuthorizedContract />,
+      },
+      {
+        path: '/manage/contract/addRecordView',
+        element: <RecordContractAdd />,
       },
     ],
   },

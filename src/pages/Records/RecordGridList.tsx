@@ -1,10 +1,10 @@
 import { Card, ConfigProvider } from 'antd';
 import Pagination from '../../components/Pagination';
-import { ExtendedRecord } from './index';
 import Meta from 'antd/es/card/Meta';
 import { formatTime } from '../../utils/formatTime';
 import { useState } from 'react';
 import { EditOutlined, PlayCircleFilled } from '@ant-design/icons';
+import { ExtendedRecord } from '.';
 
 type RecordListType = {
   data: Array<ExtendedRecord>;
@@ -75,7 +75,19 @@ const RecordGridList = (data: RecordListType) => {
                     <div className="absolute flex items-center justify-center inset-0">
                       <PlayCircleFilled className="text-[40px] bg-black text-[#fff] opacity-50  rounded-[42px] border-none" />
                     </div>
-                    <img alt="example" src={d.photoUrl} />
+                    {d.photoUrl ? (
+                      <>
+                        <img alt="example" src={d.photoUrl} />
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-[209px] bg-black ratio-16x9">
+                          <div className="flex items-center justify-center h-full text-8xl fw-bolder text-white">
+                            {d.name[0]}
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 }
               >

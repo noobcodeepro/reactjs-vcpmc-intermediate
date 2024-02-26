@@ -46,7 +46,7 @@ const DrawerNavbar = () => {
   return (
     <>
       <div
-        className="w-[40px] h-screen bg-black relative text-[#FF7506]"
+        className="w-[40px] z-50 h-screen bg-black relative text-[#FF7506]"
         onClick={() => setOpen(true)}
       >
         <RightOutlined className="font-bold text-[22px] absolute inset-0 pl-2" />

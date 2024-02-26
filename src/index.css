@@ -11,13 +11,13 @@ html {
 /* Input */
 /* =============================================================================== */
 :where(.css-dev-only-do-not-override-1y3z18n).ant-input,
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined,
-:where(.css-dev-only-do-not-override-1y3z18n).ant-input-outlined:hover,
-:where(.css-dev-only-do-not-override-1y3z18n).ant-input-outlined:focus-within,
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined.ant-input-disabled,
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined[disabled],
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined:hover,
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined:focus-within {
+.ant-input-outlined,
+.ant-input-outlined:hover,
+.ant-input-outlined:focus-within,
+.ant-input-outlined.ant-input-disabled,
+.ant-input-outlined[disabled],
+.ant-input-outlined:hover,
+.ant-input-outlined:focus-within {
   padding-left: 1rem;
   padding-right: 1.5rem;
   padding-bottom: 13px;
@@ -29,6 +29,17 @@ html {
   padding: 11px 14px 13px;
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+.ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled),
+.ant-input-outlined.ant-input-status-error:not(.ant-input-disabled):hover,
+.ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled):hover,
+.ant-select-outlined.ant-select-status-error:not(.ant-select-customize-input) .ant-select-selector,
+.ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
+  background: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ff4d4f;
 }
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-input-affix-wrapper > input.ant-input {
@@ -55,6 +66,16 @@ input[type='password'].ant-input {
   cursor: pointer;
   transition: all 0.3s;
   font-size: 1.5rem;
+}
+
+textarea.ant-input,
+textarea.ant-input:hover,
+textarea.ant-input:focus-within {
+  border: 1px solid #727288;
+}
+
+textarea.ant-input::placeholder {
+  color: #727288;
 }
 
 /* =============================================================================== */
@@ -211,4 +232,10 @@ input[type='password'].ant-input {
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-card .ant-card-body {
   padding: 18px;
+}
+
+/* Form */
+
+.ant-form-item {
+  margin-bottom: 0px;
 }

@@ -1,9 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { db } from '../../../lib/firebase';
 import { addDoc, collection, getDocs } from 'firebase/firestore';
 
 interface IState {
   authorizedContract: Array<IAuthorizeContract>;
+  waitingContract: Omit<IAuthorizeContract, 'id'> | null;
   isLoading: boolean;
 }
 
@@ -39,10 +40,13 @@ interface IIndividual {
   phoneNumber: number;
   taxCode: number;
   type: string;
+  groupName?: string;
+  groupAddress?: string;
 }
 
 const initialState: IState = {
   authorizedContract: [],
+  waitingContract: null,
   isLoading: true,
 };
 
@@ -78,7 +82,11 @@ export const addContract = createAsyncThunk(
 export const authorizeContractSlice = createSlice({
   name: 'authorizedContract',
   initialState,
-  reducers: {},
+  reducers: {
+    addWatingContract: (state, action: PayloadAction<Omit<IAuthorizeContract, 'id'>>) => {
+      state.waitingContract = action.payload;
+    },
+  },
   extraReducers: builder =>
     builder
       .addCase(getContracts.pending, state => {
@@ -87,9 +95,14 @@ export const authorizeContractSlice = createSlice({
       .addCase(getContracts.fulfilled, (state, action) => {
         state.authorizedContract = action.payload;
         state.isLoading = false;
+      })
+      .addCase(addContract.fulfilled, state => {
+        state.waitingContract = null;
       }),
 });
 
 // Action creators are generated for each case reducer function
 
 export default authorizeContractSlice.reducer;
+
+export const { addWatingContract } = authorizeContractSlice.actions;

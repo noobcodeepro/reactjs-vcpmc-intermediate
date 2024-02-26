@@ -69,7 +69,7 @@ const Login = () => {
         <Input.Password
           value={password}
           onChange={e => setPassword(e.target.value)}
-          className={`input__password input ${error && 'error'}`}
+          className={`${error && 'error'}`}
         />
 
         {error && <span className="text-red-500 block mt-4">{error}</span>}
