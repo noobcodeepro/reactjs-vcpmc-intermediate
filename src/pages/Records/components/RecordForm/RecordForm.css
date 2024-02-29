@@ -1,0 +1,9 @@
+input#producer,
+input#name,
+input#isrc_id,
+input#singer,
+input#author,
+.bordered.ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+  border: 1px solid #727288;
+  margin-bottom: 16px;
+}

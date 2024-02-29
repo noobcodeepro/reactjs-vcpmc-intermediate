@@ -1,8 +1,14 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { DatePicker, Form, Input } from 'antd';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../../../contexts/store';
+import dayjs from 'dayjs';
 
 const ContractDetailForm = () => {
+  const edittingContract = useSelector(
+    (state: RootState) => state.authorizedContract.edittingContract,
+  );
   return (
     <>
       <div className="">
@@ -13,6 +19,7 @@ const ContractDetailForm = () => {
             </div>
             <div className="py-2 flex-1">
               <Form.Item
+                initialValue={edittingContract?.contractId}
                 name={'contractId'}
                 className="mb-0"
                 rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
@@ -27,6 +34,7 @@ const ContractDetailForm = () => {
             </div>
             <div className="py-2 flex-1">
               <Form.Item
+                initialValue={edittingContract?.name}
                 name={'contractName'}
                 className="mb-0"
                 rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
@@ -41,6 +49,7 @@ const ContractDetailForm = () => {
             </div>
             <div className="py-2 flex-1">
               <Form.Item
+                initialValue={edittingContract?.startDate ? dayjs(edittingContract.startDate) : ''}
                 name={'startDate'}
                 className="mb-0"
                 rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
@@ -55,6 +64,7 @@ const ContractDetailForm = () => {
             </div>
             <div className="py-2 flex-1">
               <Form.Item
+                initialValue={edittingContract?.endDate ? dayjs(edittingContract.endDate) : ''}
                 name={'endDate'}
                 className="mb-0"
                 rules={[{ required: true, message: 'Trường này là bắt buộc' }]}

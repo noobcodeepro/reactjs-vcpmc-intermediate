@@ -31,6 +31,12 @@ html {
   line-height: 1.5rem;
 }
 
+textarea.ant-input.ant-input-outlined:hover,
+textarea.ant-input.ant-input-outlined:focus-within,
+textarea.ant-input.ant-input-outlined:focus {
+  height: unset;
+}
+
 .ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled),
 .ant-input-outlined.ant-input-status-error:not(.ant-input-disabled):hover,
 .ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled):hover,

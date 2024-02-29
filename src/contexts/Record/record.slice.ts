@@ -12,16 +12,18 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { contractCollection } from '../Manage/Contract/Authorize.slice';
+import { IAuthorizeContract, contractCollection } from '../Manage/Contract/Authorize.slice';
 import React from 'react';
 
 interface IState {
   records: Array<Record>;
+  edittingRecord: Record | null;
   isLoading: boolean;
 }
 
 const initialState: IState = {
   records: [],
+  edittingRecord: null,
   isLoading: true,
 };
 
@@ -39,7 +41,7 @@ export const getRecords = createAsyncThunk<Record[]>('records/getAll', async () 
           photoUrl = (await getDownloadURL(fileRef)) || '';
         }
       } catch (error) {
-        console.log(error);
+        photoUrl = '';
       }
       const contractRef = doc(db, `/authorizedContracts/${d.data().contractId}`);
       const data = (await getDoc(contractRef)).data();
@@ -59,41 +61,50 @@ export const getRecords = createAsyncThunk<Record[]>('records/getAll', async () 
 export const approveRecord = createAsyncThunk(
   'records/approved',
   async (idList: Array<React.Key>) => {
-    console.log(idList);
-
-    const approveRecordList = await Promise.all(
+    const currentTime = new Date().getTime();
+    await Promise.all(
       idList.map(async id => {
         const docRef = doc(db, `/records/${id}`);
         const data = (await getDoc(docRef)).data() as Record;
         await updateDoc(docRef, {
           ...data,
-          approvedAt: new Date().getTime(),
+          approvedAt: currentTime,
         });
 
         console.log({
           ...data,
           id: docRef.id,
-          approvedAt: new Date().getTime(),
+          approvedAt: currentTime,
         });
 
         return {
           ...data,
           id: data?.id,
-          approvedAt: new Date().getTime(),
+          approvedAt: currentTime,
         } as Record;
       }),
     );
 
-    return approveRecordList;
+    return { idList, currentTime };
   },
 );
 
 export const getDetailRecord = createAsyncThunk('records/getRecord', async (id: string) => {
   const data = (await getDoc(doc(db, `/records/${id}`))).data() as Record;
-  const contractData = (await getDoc(doc(db, `/authorizedContracts/${data.id}`))).data();
+  const contractData = await getDoc(doc(db, `/authorizedContracts/${data.id}`));
+  let photoUrl = '';
+  try {
+    const fileRef = ref(storage, 'records/' + id + '.jpg');
+    if (fileRef) {
+      photoUrl = (await getDownloadURL(fileRef)) || '';
+    }
+  } catch (error) {
+    photoUrl = '';
+  }
   return {
     data,
-    contractData,
+    contractData: { ...contractData.data(), id: contractData.id } as IAuthorizeContract,
+    photoUrl,
   };
 });
 
@@ -107,6 +118,29 @@ export const addRecord = createAsyncThunk('records/addRecord', async (item: Omit
     console.log(error);
   }
 });
+
+export const updateRecord = createAsyncThunk(
+  'records/update',
+  async ({
+    item,
+    id,
+  }: {
+    item: {
+      name: string;
+      isrc_id: string;
+      singer: string;
+      author: string;
+      producer?: string;
+      category: string;
+    };
+    id: string;
+  }) => {
+    const docRef = doc(db, `/records/${id}`);
+    console.log((await getDoc(docRef)).data());
+
+    await updateDoc(docRef, item);
+  },
+);
 
 export const denyApproveRecord = createAsyncThunk(
   'records/denyApprove',
@@ -127,7 +161,7 @@ export const denyApproveRecord = createAsyncThunk(
       }),
     );
 
-    return denyRecords;
+    return { idList, denyReason };
   },
 );
 
@@ -143,6 +177,26 @@ export const recordSlice = createSlice({
       .addCase(getRecords.fulfilled, (state, action) => {
         state.records = action.payload;
         state.isLoading = false;
+      })
+      .addCase(approveRecord.fulfilled, (state, action) => {
+        console.log(action.payload);
+        const arrayList = action.payload.idList;
+        const approvedAt = action.payload.currentTime;
+        state.records.map((r, index) => {
+          if (arrayList.includes(r.id)) {
+            state.records[index] = { ...r, approvedAt };
+          }
+        });
+      })
+      .addCase(denyApproveRecord.fulfilled, (state, action) => {
+        const arrayList = action.payload.idList;
+        const reason = action.payload.denyReason;
+
+        state.records.map((r, index) => {
+          if (arrayList.includes(r.id)) {
+            state.records[index] = { ...r, denyReason: reason };
+          }
+        });
       }),
 });
 

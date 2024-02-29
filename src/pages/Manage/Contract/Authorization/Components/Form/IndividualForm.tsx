@@ -1,9 +1,21 @@
 import { DatePicker, Form, Input, Radio, Select } from 'antd';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../../../contexts/store';
+import dayjs from 'dayjs';
 
 const emailRegex = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
 
-const IndividualForm = () => {
+const IndividualForm = ({
+  type,
+  setType,
+}: {
+  type?: 'individual' | 'group';
+  setType: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const edittingContract = useSelector(
+    (state: RootState) => state.authorizedContract.edittingContract,
+  );
   return (
     <>
       <div className="">
@@ -12,15 +24,16 @@ const IndividualForm = () => {
             <div className="flex items-center justify-between">
               <div className="py-2 flex-1">Pháp nhân ủy quyền: </div>
               <div className="py-2 flex-1">
-                <Form.Item
-                  rules={[{ required: true, message: 'Trường này không được trống' }]}
-                  name={'type'}
-                >
-                  <Radio.Group className="flex">
+                <Form.Item name={'type'} initialValue={type}>
+                  <Radio.Group
+                    className="flex"
+                    defaultValue={type}
+                    onChange={() => setType('group')}
+                  >
                     <Radio className="text-white flex-1" value={'individual'}>
                       Cá nhân{' '}
                     </Radio>
-                    <Radio className="text-white flex-1" value={'organization'}>
+                    <Radio className="text-white flex-1" value={'group'}>
                       Tổ chức
                     </Radio>
                   </Radio.Group>
@@ -33,6 +46,7 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1">
                 <Form.Item
+                  initialValue={edittingContract?.authorizer}
                   name={'authorizer'}
                   rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
                 >
@@ -46,6 +60,7 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1">
                 <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.gender}
                   name={'gender'}
                   rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
                 >
@@ -66,6 +81,11 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1">
                 <Form.Item
+                  initialValue={
+                    edittingContract?.authorizedEntity.dob
+                      ? dayjs(edittingContract.authorizedEntity.dob)
+                      : ''
+                  }
                   name={'dob'}
                   rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
                 >
@@ -84,6 +104,7 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1 min-w-[160px]">
                 <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.nationality}
                   name={'nationality'}
                   rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
                 >
@@ -104,7 +125,10 @@ const IndividualForm = () => {
             <div className="flex items-center justify-between">
               <div className="py-2 flex-1">Số điện thoại: </div>
               <div className="py-2 flex-1">
-                <Form.Item name={'phoneNumber'}>
+                <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.phoneNumber}
+                  name={'phoneNumber'}
+                >
                   <Input />
                 </Form.Item>
               </div>
@@ -120,6 +144,7 @@ const IndividualForm = () => {
                 Số CMND/CCCD: <span className="text-red-500">*</span>{' '}
               </div>
               <Form.Item
+                initialValue={edittingContract?.authorizedEntity.idNumber}
                 name={'idNumber'}
                 rules={[
                   { required: true, message: 'Trường này không được trống' },
@@ -138,6 +163,11 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1">
                 <Form.Item
+                  initialValue={
+                    edittingContract?.authorizedEntity.idProvideDate
+                      ? dayjs(edittingContract.authorizedEntity.idProvideDate)
+                      : ''
+                  }
                   name={'idProvideDate'}
                   rules={[{ required: true, message: 'Trường này không được trống' }]}
                 >
@@ -151,6 +181,7 @@ const IndividualForm = () => {
               </div>
               <div className="py-2">
                 <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.idProvideAt}
                   name={'idProvideAt'}
                   rules={[{ required: true, message: 'Trường này không được trống' }]}
                 >
@@ -161,7 +192,10 @@ const IndividualForm = () => {
             <div className="flex items-center justify-between">
               <div className="py-2">Mã số thuế: </div>
               <div className="py-2">
-                <Form.Item name={'taxCode'}>
+                <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.taxCode}
+                  name={'taxCode'}
+                >
                   <Input />
                 </Form.Item>
               </div>
@@ -169,7 +203,10 @@ const IndividualForm = () => {
             <div className="flex items-center justify-between">
               <div className="py-2">Nơi cư trú: </div>
               <div className="py-2">
-                <Form.Item name={'address'}>
+                <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.address}
+                  name={'address'}
+                >
                   <Input />
                 </Form.Item>
               </div>
@@ -186,6 +223,7 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1">
                 <Form.Item
+                  initialValue={edittingContract?.userAccount.email}
                   name={'email'}
                   rules={[
                     { required: true, message: 'Trường này không được trống' },
@@ -205,6 +243,7 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1">
                 <Form.Item
+                  initialValue={edittingContract?.userAccount.name}
                   name={'username'}
                   rules={[{ required: true, message: 'Trường này không được trống' }]}
                 >
@@ -218,6 +257,7 @@ const IndividualForm = () => {
               </div>
               <div className="py-2 flex-1">
                 <Form.Item
+                  initialValue={edittingContract?.userAccount.password}
                   name={'password'}
                   rules={[{ required: true, message: 'Trường này không được trống' }]}
                 >
@@ -228,7 +268,10 @@ const IndividualForm = () => {
             <div className="flex items-center justify-between">
               <div className="py-2 flex-1">Số tài khoản: </div>
               <div className="py-2 flex-1">
-                <Form.Item name={'bankNumber'}>
+                <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.bankNumber}
+                  name={'bankNumber'}
+                >
                   <Input />
                 </Form.Item>
               </div>
@@ -236,7 +279,10 @@ const IndividualForm = () => {
             <div className="flex items-center justify-between">
               <div className="py-2 flex-1">Ngân hàng: </div>
               <div className="py-2 flex-1">
-                <Form.Item name={'bank'}>
+                <Form.Item
+                  initialValue={edittingContract?.authorizedEntity.bankNumber}
+                  name={'bank'}
+                >
                   <Input />
                 </Form.Item>
               </div>

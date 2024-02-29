@@ -91,7 +91,7 @@ const columns: ColumnsType<ExtendedRecord> = [
     key: 'id',
     dataIndex: 'id',
     render: (id: string) => (
-      <Link className="text-[#FF7506] text-xs underline" to={`record/u/${id}`}>
+      <Link className="text-[#FF7506] text-xs underline" to={`/record/u/${id}`}>
         Cập nhật
       </Link>
     ),
@@ -164,7 +164,12 @@ const Records = () => {
   };
 
   const handleApprove = () => {
-    dispatch(approveRecord(selectedRowKeys));
+    dispatch(approveRecord(selectedRowKeys)).then(() => {
+      const timeOutId = setTimeout(() => {
+        setApproveMode(false);
+        clearTimeout(timeOutId);
+      }, 700);
+    });
   };
 
   const handleDenyApprove = () => {

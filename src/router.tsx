@@ -26,6 +26,7 @@ import Profile from './pages/Auth/Profile';
 import ContractDetail from './pages/Manage/Contract/Authorization/ContractDetail';
 import AddAuthorizedContract from './pages/Manage/Contract/Authorization/AddContract';
 import RecordContractAdd from './pages/Manage/Contract/Authorization/RecordContractAdd';
+import UpdateRecord from './pages/Records/UpdateRecord';
 
 const router = createBrowserRouter([
   {
@@ -167,6 +168,14 @@ const router = createBrowserRouter([
       {
         path: '/manage/contract/addRecordView',
         element: <RecordContractAdd />,
+      },
+      {
+        path: '/manage/contract/edit-contract',
+        element: <AddAuthorizedContract />,
+      },
+      {
+        path: 'record/u/:id',
+        element: <UpdateRecord />,
       },
     ],
   },
