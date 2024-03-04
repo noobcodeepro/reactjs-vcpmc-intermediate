@@ -252,3 +252,8 @@ textarea.ant-input::placeholder {
 .ant-switch {
   background-color: gray;
 }
+
+/* Divider */
+.ant-divider-horizontal {
+  border-color: #727288;
+}

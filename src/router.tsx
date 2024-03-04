@@ -31,6 +31,7 @@ import UpdateRecord from './pages/Records/UpdateRecord';
 import MiningContractDetail from './pages/Manage/Contract/Mining/ContractDetail';
 import AddPlaylist from './pages/Playlist/AddPlaylist';
 import AddRecord from './pages/Playlist/AddRecord';
+import PlaylistDetail from './pages/Playlist/PlaylistDetail';
 
 const router = createBrowserRouter([
   {
@@ -206,8 +207,16 @@ const router = createBrowserRouter([
         element: <AddPlaylist />,
       },
       {
+        path: '/playlist/edit',
+        element: <AddPlaylist editMode={true} />,
+      },
+      {
         path: '/playlist/record/add',
         element: <AddRecord />,
+      },
+      {
+        path: '/playlist/d/:id',
+        element: <PlaylistDetail />,
       },
     ],
   },

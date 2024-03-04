@@ -26,27 +26,9 @@ import {
   addPlaylist,
   clearWaiting,
   deleteAddedRecord,
+  updatePlaylist,
 } from '../../contexts/Playlist/playlist.slice';
 import convertSecondsToHMS from '../../utils/convertSecondsToHMS';
-
-const breadCrumbItems = [
-  {
-    title: (
-      <Link to={'/manage/mining-contract'}>
-        <div className="text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
-          Playlist
-        </div>
-      </Link>
-    ),
-  },
-  {
-    title: (
-      <div className=" text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
-        Thêm playlist mới
-      </div>
-    ),
-  },
-];
 
 type ColumnsType<T extends object> = TableProps<T>['columns'];
 
@@ -109,7 +91,7 @@ const handleChange = (value: string | string[]) => {
   console.log(`Selected: ${value}`);
 };
 
-const AddPlaylist = () => {
+const AddPlaylist = ({ editMode = false }: { editMode?: boolean }) => {
   const [form] = useForm();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -127,6 +109,58 @@ const AddPlaylist = () => {
     key: record.id,
     index: index + 1,
   }));
+
+  const waitingPlaylist = useSelector((state: RootState) => state.playlist.waitingPlaylist);
+
+  const breadCrumbItems = !editMode
+    ? [
+        {
+          title: (
+            <Link to={'/playlist'}>
+              <div className="text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+                Playlist
+              </div>
+            </Link>
+          ),
+        },
+        {
+          title: (
+            <Link to={`/playlist/d/${waitingPlaylist.id}`}>
+              <div className=" text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+                Chi tiết playlist
+              </div>
+            </Link>
+          ),
+        },
+      ]
+    : [
+        {
+          title: (
+            <Link to={'/playlist'}>
+              <div className="text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+                Playlist
+              </div>
+            </Link>
+          ),
+        },
+        {
+          title: (
+            <Link to={`/playlist/d/${waitingPlaylist.id}`}>
+              <div className=" text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+                Chi tiết playlist
+              </div>
+            </Link>
+          ),
+        },
+        {
+          title: (
+            <div className=" text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+              Chỉnh sửa
+            </div>
+          ),
+        },
+      ];
+
   useEffect(() => {
     if (!records) {
       dispatch(getRecords());
@@ -206,9 +240,14 @@ const AddPlaylist = () => {
     };
 
     if (submitData) {
-      dispatch(addPlaylist(submitData)).then(() => {
-        alert('Add playlist thanh cong');
-      });
+      if (waitingPlaylist.id) {
+        dispatch(updatePlaylist({ item: submitData, id: waitingPlaylist.id }));
+      } else {
+        dispatch(addPlaylist(submitData)).then(() => {
+          alert('Add playlist thanh cong');
+        });
+      }
+      navigate('/playlist');
     }
   };
   return (
@@ -233,6 +272,7 @@ const AddPlaylist = () => {
             <Form onFinish={onFinish} form={form} layout="vertical">
               <Form.Item
                 name={'title'}
+                initialValue={waitingPlaylist.title}
                 rules={[{ required: true, message: 'Trường này là bắt buộc' }]}
                 label={
                   <div className="font-semibold text-base text-white">
@@ -261,6 +301,7 @@ const AddPlaylist = () => {
               <Divider />
 
               <Form.Item
+                initialValue={waitingPlaylist.description}
                 name={'description'}
                 label={<div className="font-semibold text-base text-white">Mô tả:</div>}
               >
@@ -270,6 +311,7 @@ const AddPlaylist = () => {
               <Divider />
 
               <Form.Item
+                initialValue={waitingPlaylist.topics}
                 name={'topics'}
                 label={<div className="font-semibold text-base text-white">Chủ đề:</div>}
               >
