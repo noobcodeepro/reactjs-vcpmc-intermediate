@@ -25,8 +25,12 @@ import App from './App';
 import Profile from './pages/Auth/Profile';
 import ContractDetail from './pages/Manage/Contract/Authorization/ContractDetail';
 import AddAuthorizedContract from './pages/Manage/Contract/Authorization/AddContract';
+import AddMiningContract from './pages/Manage/Contract/Mining/AddContract';
 import RecordContractAdd from './pages/Manage/Contract/Authorization/RecordContractAdd';
 import UpdateRecord from './pages/Records/UpdateRecord';
+import MiningContractDetail from './pages/Manage/Contract/Mining/ContractDetail';
+import AddPlaylist from './pages/Playlist/AddPlaylist';
+import AddRecord from './pages/Playlist/AddRecord';
 
 const router = createBrowserRouter([
   {
@@ -74,6 +78,10 @@ const router = createBrowserRouter([
           {
             path: '/manage/contract',
             element: <Contract />,
+          },
+          {
+            path: '/manage/mining-contract',
+            element: <Contract state="mining" />,
           },
           {
             path: '/manage/authority',
@@ -162,6 +170,14 @@ const router = createBrowserRouter([
         element: <ContractDetail />,
       },
       {
+        path: '/manage/contract/mining-contract/d/:id',
+        element: <MiningContractDetail />,
+      },
+      {
+        path: '/manage/contract/mining-contract/c/:id',
+        element: <AddMiningContract copied={true} />,
+      },
+      {
         path: '/manage/contract/authorization-contract/add',
         element: <AddAuthorizedContract />,
       },
@@ -176,6 +192,22 @@ const router = createBrowserRouter([
       {
         path: 'record/u/:id',
         element: <UpdateRecord />,
+      },
+      {
+        path: '/manage/contract/mining-contract/add',
+        element: <AddMiningContract />,
+      },
+      {
+        path: 'manage/contract/mining-contract/edit',
+        element: <AddMiningContract />,
+      },
+      {
+        path: '/playlist/add',
+        element: <AddPlaylist />,
+      },
+      {
+        path: '/playlist/record/add',
+        element: <AddRecord />,
       },
     ],
   },

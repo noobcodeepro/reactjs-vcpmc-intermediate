@@ -24,7 +24,7 @@ const Pagination = ({
         },
       }}
     >
-      <div className="w-[1485px] mx-auto justify-between items-start inline-flex py-3">
+      <div className="w-full mx-auto justify-between items-start inline-flex py-3">
         <div className="justify-start items-center gap-2 flex">
           <div className="w-[58.45px] opacity-70 text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
             Hiển thị{' '}

@@ -245,3 +245,10 @@ textarea.ant-input::placeholder {
 .ant-form-item {
   margin-bottom: 0px;
 }
+
+/* Switch */
+
+.ant-switch:hover:not(.ant-switch-disabled),
+.ant-switch {
+  background-color: gray;
+}

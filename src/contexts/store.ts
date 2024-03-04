@@ -4,6 +4,7 @@ import authReducer from './Auth/auth.slice';
 import { useDispatch } from 'react-redux';
 import playlistReducer from './Playlist/playlist.slice';
 import authorizeContractReducer from './Manage/Contract/Authorize.slice';
+import miningSlice from './Manage/Contract/Mining.slice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     auth: authReducer,
     playlist: playlistReducer,
     authorizedContract: authorizeContractReducer,
+    miningContract: miningSlice,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
