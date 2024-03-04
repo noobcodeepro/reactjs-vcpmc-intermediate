@@ -113,6 +113,7 @@ const AddPlaylist = () => {
   const [form] = useForm();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const currentUsername = useSelector((state: RootState) => state.auth.user?.displayName);
   const records = useSelector((state: RootState) => state.record.records) || [];
   const playlistDuration =
     useSelector((state: RootState) => state.playlist.waitingPlaylist.duration) || 0;
@@ -200,6 +201,8 @@ const AddPlaylist = () => {
       title: data.title,
       description: data.description,
       topics: data.topics,
+      createAt: new Date().getTime(),
+      createBy: currentUsername ? currentUsername : '',
     };
 
     if (submitData) {

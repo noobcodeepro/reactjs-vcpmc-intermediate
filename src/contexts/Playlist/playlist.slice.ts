@@ -12,6 +12,8 @@ export interface Playlist {
   description?: string;
   topics?: Array<string>;
   songs: Array<string>;
+  createAt: number;
+  createBy: string;
 }
 
 export interface IPlaylist {
@@ -29,6 +31,8 @@ const initialState: IPlaylist = {
     description: '',
     topics: [''],
     songs: [],
+    createAt: new Date().getTime(),
+    createBy: '',
   },
 };
 const playlistRef = collection(db, 'playlists');
