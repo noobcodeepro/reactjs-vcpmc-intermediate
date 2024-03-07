@@ -1,30 +1,27 @@
-:where(.css-dev-only-do-not-override-17xx2t6).ant-table-wrapper .ant-table-pagination-right {
+.ant-table-wrapper .ant-table-pagination-right {
   justify-content: space-between;
 }
 
-:where(.css-dev-only-do-not-override-17xx2t6).ant-pagination .ant-pagination-options {
+.ant-pagination .ant-pagination-options {
   display: none;
 }
 
-:where(.css-dev-only-do-not-override-17xx2t6).ant-table-wrapper
-  .ant-table-pagination.ant-pagination {
+.ant-table-wrapper .ant-table-pagination.ant-pagination {
   display: none;
 }
 
-:where(.css-dev-only-do-not-override-17xx2t6).ant-pagination .ant-pagination-options {
+.ant-pagination .ant-pagination-options {
   display: none;
 }
 
-:where(.css-dev-only-do-not-override-17xx2t6).ant-table-wrapper
-  .ant-table-pagination.ant-pagination {
+.ant-table-wrapper .ant-table-pagination.ant-pagination {
   display: none;
 }
 
-:where(.css-dev-only-do-not-override-17xx2t6).ant-pagination .ant-pagination-options {
+.ant-pagination .ant-pagination-options {
   display: none;
 }
 
-:where(.css-dev-only-do-not-override-17xx2t6).ant-table-wrapper
-  .ant-table-pagination.ant-pagination {
+.ant-table-wrapper .ant-table-pagination.ant-pagination {
   display: none;
 }

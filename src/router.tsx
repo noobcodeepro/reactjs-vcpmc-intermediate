@@ -32,6 +32,7 @@ import MiningContractDetail from './pages/Manage/Contract/Mining/ContractDetail'
 import AddPlaylist from './pages/Playlist/AddPlaylist';
 import AddRecord from './pages/Playlist/AddRecord';
 import PlaylistDetail from './pages/Playlist/PlaylistDetail';
+import AddDevice from './pages/Manage/Device/AddDevice';
 
 const router = createBrowserRouter([
   {
@@ -201,6 +202,10 @@ const router = createBrowserRouter([
       {
         path: 'manage/contract/mining-contract/edit',
         element: <AddMiningContract />,
+      },
+      {
+        path: 'manage/device/add',
+        element: <AddDevice />,
       },
       {
         path: '/playlist/add',

@@ -1,17 +1,156 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Pagination from '../../../components/Pagination';
+import { useNavigate } from 'react-router-dom';
+import {
+  IDevice,
+  activeDevice,
+  deactiveDevice,
+  getDevices,
+} from '../../../contexts/Manage/Device/Device.slice';
+import { TableProps } from 'antd';
+import { getDateString } from './../../../utils/getDateString';
+import { RootState, useAppDispatch } from '../../../contexts/store';
+import { useSelector } from 'react-redux';
+import Table from '../../../components/Table';
+
+interface ExtendedDevice extends IDevice {
+  key: string;
+  index: number;
+}
+
+type ColumnsType<T extends object> = TableProps<T>['columns'];
+
+const columns: ColumnsType<ExtendedDevice> = [
+  {
+    title: 'STT',
+    dataIndex: 'index',
+    key: 'index',
+    align: 'right',
+    render: (text: string) => <a>{text}</a>,
+  },
+  {
+    title: 'Tên thiết bị',
+    dataIndex: 'nameDevice',
+    key: 'nameDevice',
+  },
+  {
+    title: 'Trạng thái',
+    dataIndex: 'state',
+    key: 'state',
+    render: (state: 'active' | 'in-active' | 'ban') => {
+      let html = (
+        <div className="flex items-center gap-2">
+          {' '}
+          <div className="w-2 h-2 rounded-full bg-green-500"></div>Đang kích hoạt | Đang hoạt động
+        </div>
+      );
+
+      switch (state) {
+        case 'in-active':
+          html = (
+            <div className="flex items-center gap-2">
+              {' '}
+              <div className="w-2 h-2 rounded-full bg-red-500"></div>Ngừng kích hoạt
+            </div>
+          );
+          break;
+        case 'ban':
+          html = (
+            <div className="flex items-center gap-2">
+              {' '}
+              <div className="w-2 h-2 rounded-full bg-red-500"></div>Đang bị khóa
+            </div>
+          );
+          break;
+        default:
+          break;
+      }
+      return <>{html}</>;
+    },
+  },
+  {
+    title: 'Địa điểm',
+    dataIndex: 'userAccount',
+    key: 'userAccount',
+    // align: 'left',
+    // className: 'px-12',
+    render: (userAccount: { username: string; password: string; address: string }) => (
+      <div>{userAccount.address}</div>
+    ),
+  },
+  {
+    title: 'Hạn hợp đồng',
+    key: 'expireDate',
+    dataIndex: 'expireDate',
+    render: (timestamp: number) => <div>{getDateString(timestamp)}</div>,
+  },
+  {
+    title: 'MAC Address',
+    key: 'macAddress',
+    dataIndex: 'macAddress',
+  },
+  {
+    title: 'Memory',
+    key: 'id',
+    dataIndex: 'id',
+    render: () => <span>0.00GB/32GB</span>,
+  },
+];
 
 const Device = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const devices = useSelector((state: RootState) => state.device.devices);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const filteredData: Array<ExtendedDevice> = devices.map((d, index) => ({
+    ...d,
+    index: index + 1,
+    key: d.id,
+  }));
+
+  const handleActive = () => {
+    const firstSelectedDevice = filteredData.find(f => selectedRowKeys[0] === f.id);
+
+    if (firstSelectedDevice?.state === 'active') {
+      dispatch(deactiveDevice({ idList: selectedRowKeys }));
+    } else {
+      dispatch(activeDevice({ idList: selectedRowKeys }));
+    }
+  };
+
+  const isActiveDevice = () => {
+    const device = filteredData.find(f => selectedRowKeys[0] === f.id);
+
+    return device?.state === 'active' ? true : false;
+  };
+
+  useEffect(() => {
+    dispatch(getDevices());
+  }, []);
   return (
     <>
-      <div className="w-[665px] px-6 py-3 left-[1105px] top-[158px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[665px] px-6 py-3 right-[120px] top-[158px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
         <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
           Tìm thiết bị theo tên, SKU, địa điểm, địa chỉ Mac
         </div>
         <div className="w-6 h-6 relative" />
       </div>
       <div className="h-[520px] left-[1810px] top-[158px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div
+          onClick={() => navigate('/manage/device/add')}
+          className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl flex-col justify-center items-center gap-2.5 flex"
+        >
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>
@@ -21,13 +160,26 @@ const Device = () => {
             thiết bị
           </div>
         </div>
-        <div className="self-stretch h-[130px] p-4 bg-slate-800 flex-col justify-center items-center gap-2.5 flex">
+        <div
+          onClick={handleActive}
+          className="self-stretch h-[130px] p-4 bg-slate-800 flex-col justify-center items-center gap-2.5 flex"
+        >
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>
           <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
-            Kích hoạt <br />
-            thiết bị
+            {isActiveDevice() ? (
+              <>
+                Ngừng <br />
+                kích hoạt <br />
+                thiết bị
+              </>
+            ) : (
+              <>
+                Kích hoạt <br />
+                thiết bị
+              </>
+            )}
           </div>
         </div>
         <div className="self-stretch h-[130px] p-4 bg-slate-800 flex-col justify-center items-center gap-2.5 flex">
@@ -67,9 +219,9 @@ const Device = () => {
         </div>
         <div className="w-6 h-6 relative" />
       </div>
-      <div className="h-[779px] px-6 py-4 left-[229px] top-[230px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
+      <div className="left-[229px] right-[120px] top-[230px] absolute">
         <div className="self-stretch justify-start items-start inline-flex">
-          <div className="w-[71px] flex-col justify-center items-start inline-flex">
+          {/* <div className="w-[71px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 py-2 justify-start items-start gap-1 inline-flex">
               <div className="w-10 h-6 relative">
                 <div className="w-6 h-6 left-0 top-0 absolute" />
@@ -754,9 +906,10 @@ const Device = () => {
                 0.00GB/32GB
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
-        <Pagination />
+        {/* <Pagination /> */}
+        <Table rowSelection={rowSelection} dataSource={filteredData} columns={columns} />
       </div>
     </>
   );

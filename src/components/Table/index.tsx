@@ -6,19 +6,9 @@ import Pagination from '../Pagination';
 import './table.css';
 import { TableRowSelection } from 'antd/es/table/interface';
 
-type TableColumnType = ExtendedRecord | { text: string };
-type ColumnsType<T extends TableColumnType> = TableProps<T>['columns'];
+interface CustomTableProps<T> extends TableProps<T> {}
 
-function Table<T extends TableColumnType>({
-  columns,
-  dataSource,
-  rowSelection,
-  ...props
-}: {
-  columns: ColumnsType<T>;
-  dataSource: Array<T>;
-  rowSelection?: TableRowSelection<T>;
-}) {
+function Table<T extends object>(props: CustomTableProps<T>) {
   const [pageSize, setPageSize] = useState<number>(16);
   const [current, setCurrent] = useState(1);
 
@@ -26,6 +16,8 @@ function Table<T extends TableColumnType>({
     setPageSize(ps);
   };
   useEffect(() => {}, [pageSize, current]);
+
+  const dateSource = props.dataSource;
   return (
     <ConfigProvider
       theme={{
@@ -40,6 +32,9 @@ function Table<T extends TableColumnType>({
             cellPaddingInline: 12,
             fontSize: 14,
             fontFamily: 'montserrat',
+            rowSelectedBg: 'transparent',
+            rowHoverBg: '#3e3e5c',
+            rowSelectedHoverBg: '#3e3e5c',
           },
           Pagination: {
             itemActiveBg: '#FF750680',
@@ -48,16 +43,15 @@ function Table<T extends TableColumnType>({
       }}
     >
       <AntdTable
-        rowSelection={rowSelection}
         {...props}
-        columns={columns}
-        dataSource={dataSource}
+        // columns={columns}
+        // dataSource={dataSource}
         className="w-full tracking-wide leading-5 font-montserrat"
         rowClassName={'w-fit'}
         pagination={{ current, pageSize }}
       ></AntdTable>
       <Pagination
-        total={dataSource.length}
+        total={dateSource?.length ? dateSource.length : 0}
         setCurrent={setCurrent}
         setPageSize={onChangePageSize}
         pageSize={pageSize}

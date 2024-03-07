@@ -4,19 +4,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RootState, useAppDispatch } from '../../contexts/store';
 import {
   Playlist,
-  deleteAddedRecord,
   deletePlaylist,
   getPlaylist,
   startEdit,
   updatePlaylist,
 } from '../../contexts/Playlist/playlist.slice';
-import { configureStore } from '@reduxjs/toolkit';
 import convertSecondsToHMS from './../../utils/convertSecondsToHMS';
 import {
   DeleteOutlined,
   EditOutlined,
   GlobalOutlined,
-  PlusOutlined,
   RetweetOutlined,
   SwapOutlined,
 } from '@ant-design/icons';
@@ -94,7 +91,7 @@ const PlaylistDetail = () => {
       title: '',
       key: 'id',
       dataIndex: 'id',
-      render: () => <Button className="text-[#FF7506] text-xs underline">Nghe</Button>,
+      render: () => <Button className="border-none text-[#FF7506] text-xs underline">Nghe</Button>,
     },
     {
       title: '',
