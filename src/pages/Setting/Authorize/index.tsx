@@ -5,7 +5,7 @@ const Authorize = () => {
   return (
     <>
       <div className="left-[1810px] top-[189px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative">
               <div className="w-8 h-8 left-0 top-0 absolute" />
@@ -31,7 +31,7 @@ const Authorize = () => {
           </div>
         </div>
       </div>
-      <div className="h-[724px] px-6 py-4 left-[229px] top-[258px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
+      <div className="h-[724px] px-6 py-4 left-[229px] top-[258px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
         <div className="w-[1485px] justify-start items-start inline-flex">
           <div className="w-[82px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
@@ -818,7 +818,7 @@ const Authorize = () => {
         </div>
         <Pagination />
       </div>
-      <div className="w-[433px] px-6 py-3 left-[1337px] top-[186px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[433px] px-6 py-3 left-[1337px] top-[186px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
           Nhập tên người dùng
         </div>

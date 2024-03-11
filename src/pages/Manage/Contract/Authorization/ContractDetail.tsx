@@ -32,8 +32,6 @@ const ContractDetail = () => {
     };
     if (id) {
       fetchData(id).then(res => {
-        console.log(res);
-
         setCurrentContract(res);
       });
     } else {
@@ -160,7 +158,7 @@ const ContractDetail = () => {
           </div>
         </div>
         <div className="right-[0] top-[200px] absolute flex-col justify-start items-start inline-flex">
-          <div className="p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+          <div className="p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
             <div className="text-center mt-2" onClick={handleStartEdit}>
               <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
                 <div className="w-8 h-8 relative" />

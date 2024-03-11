@@ -1,7 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { recordCollection } from '../Record/record.slice';
 import { Record } from '../../types/record.type';
 
 export interface Playlist {
@@ -110,7 +109,7 @@ export const playlistSlice = createSlice({
   },
   extraReducers: builder =>
     builder
-      .addCase(getPlaylists.pending, state => {})
+      .addCase(getPlaylists.pending, () => {})
       .addCase(getPlaylists.fulfilled, (state, action) => {
         state.playlists = action.payload;
       })

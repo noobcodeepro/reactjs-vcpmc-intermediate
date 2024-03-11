@@ -13,7 +13,7 @@ const ForgotPassword = () => {
         <div className="text-white text-base font-semibold font-['Montserrat'] leading-normal">
           Email
         </div>
-        <div className="self-stretch pl-4 pr-6 pt-[11px] pb-[13px] bg-slate-800 rounded-lg border border-gray-500 justify-start items-center inline-flex">
+        <div className="self-stretch pl-4 pr-6 pt-[11px] pb-[13px] bg-[#2B2B3F] rounded-lg border border-gray-500 justify-start items-center inline-flex">
           <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
             tuyetnguyenngoc@gmail.com.vn
           </div>

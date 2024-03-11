@@ -4,7 +4,7 @@ import Pagination from '../../../components/Pagination';
 const Distribution = () => {
   return (
     <>
-      <div className="w-[1540px] h-[722px] px-6 py-4 left-[230px] top-[306px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-between items-start inline-flex">
+      <div className="w-[1540px] h-[722px] px-6 py-4 left-[230px] top-[306px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-between items-start inline-flex">
         <div className="self-stretch justify-start items-start inline-flex">
           <div className="w-[75px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
@@ -765,7 +765,7 @@ const Distribution = () => {
         </div>
         <Pagination />
       </div>
-      <div className="w-[649px] px-6 py-3 left-[1121px] top-[186px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[649px] px-6 py-3 left-[1121px] top-[186px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
           Nhập tên bài hát
         </div>
@@ -776,7 +776,7 @@ const Distribution = () => {
         Danh sách hợp đồng ủy quyền
       </div>
       <div className="left-[1810px] top-[186px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>

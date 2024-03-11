@@ -26,7 +26,7 @@ const SettingContract = () => {
       <div className="left-[229px] top-[114px] absolute text-white text-4xl font-bold font-['Montserrat'] leading-[48px]">
         Loại hợp đồng
       </div>
-      <div className="h-[444px] px-6 py-4 left-[229px] top-[186px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-6 inline-flex">
+      <div className="h-[444px] px-6 py-4 left-[229px] top-[186px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-6 inline-flex">
         <div className="self-stretch h-[412px] justify-start items-start inline-flex">
           <div className="w-[99px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
@@ -115,7 +115,7 @@ const SettingContract = () => {
         </div>
       </div>
       <div className="left-[1810px] top-[230px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>
@@ -123,7 +123,7 @@ const SettingContract = () => {
             Thêm lịch áp dụng
           </div>
         </div>
-        <div className="h-28 p-4 bg-slate-800 rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-28 p-4 bg-[#2B2B3F] rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>

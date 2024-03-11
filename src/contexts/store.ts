@@ -6,6 +6,8 @@ import playlistReducer from './Playlist/playlist.slice';
 import authorizeContractReducer from './Manage/Contract/Authorize.slice';
 import miningReducer from './Manage/Contract/Mining.slice';
 import deviceReducer from './Manage/Device/Device.slice';
+import authorityReducer from './Manage/Authority/Authority.slice';
+import usageUnitReducer from './Manage/Usage/Usage.slice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +17,8 @@ export const store = configureStore({
     authorizedContract: authorizeContractReducer,
     miningContract: miningReducer,
     device: deviceReducer,
+    authority: authorityReducer,
+    usageUnit: usageUnitReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

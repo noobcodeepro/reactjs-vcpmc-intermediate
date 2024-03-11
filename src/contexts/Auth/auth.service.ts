@@ -16,11 +16,7 @@ export const handleUpdatePassword = async (currentPassword: string, newPassword:
   const user = auth.currentUser;
 
   if (user) {
-    console.log('Start Reauthenticate');
     await reauthenticate(currentPassword);
-    console.log('Reauthenticated');
-
     await updatePassword(user, newPassword);
-    console.log('Password change successfully!');
   }
 };

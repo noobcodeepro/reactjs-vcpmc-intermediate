@@ -20,7 +20,6 @@ const Login = () => {
       dispatch(authLogin({ email, password }))
         .unwrap()
         .then(res => {
-          console.log(res);
           if (rememberPassword) {
             const userData = res.user;
             localStorage.setItem('USER_INFO', JSON.stringify(userData));
@@ -29,18 +28,6 @@ const Login = () => {
         .catch(err => {
           setError(err.message);
         });
-      // const user = userCredential.user;
-      // console.log(userCredential);
-      // const userData = {
-      //   username: user.displayName ? user.displayName : undefined,
-      //   email: email,
-      //   uid: user.uid,
-      // };
-      // if (rememberPassword) {
-      //   localStorage.setItem('USER_INFO', JSON.stringify(userData) || '');
-      // }
-
-      // dispatch(authLogin(userData));
     } catch (error) {
       console.log(error);
     }

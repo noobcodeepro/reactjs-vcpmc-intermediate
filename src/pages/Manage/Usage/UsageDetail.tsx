@@ -1,12 +1,20 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Input, Switch, TableProps } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Table from '../../../components/Table';
-import { IUsage, getusageUnit } from '../../../contexts/Manage/Usage/Usage.slice';
+import {
+  IUsage,
+  getUsageUnitDetail,
+  getusageUnit,
+} from '../../../contexts/Manage/Usage/Usage.slice';
 import { getDateString } from '../../../utils/getDateString';
 import { RootState, useAppDispatch } from '../../../contexts/store';
 import { useSelector } from 'react-redux';
+import {
+  IAuthority,
+  getReleventAuthority,
+} from '../../../contexts/Manage/Authority/Authority.slice';
 
 const breadCrumbItems = [
   {
@@ -18,24 +26,23 @@ const breadCrumbItems = [
       </Link>
     ),
   },
-
+  {
+    title: (
+      <Link to={'/manage/usage'}>
+        <div className="text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
+          Đơn vị sử dụng
+        </div>
+      </Link>
+    ),
+  },
   {
     title: (
       <div className=" text-violet-50 text-base font-semibold font-['Montserrat'] leading-normal">
-        Đơn vị sử dụng
+        Chi tiết
       </div>
     ),
   },
 ];
-
-type TableRowSelection<T> = TableProps<T>['rowSelection'];
-
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
 
 interface ExtendedUsage extends IUsage {
   key: string;
@@ -112,71 +119,123 @@ const columns: ColumnsType<ExtendedUsage> = [
   },
 ];
 
-const Usage = () => {
+const UsageDetail = () => {
   const dispatch = useAppDispatch();
-  const usageUnits = useSelector((state: RootState) => state.usageUnit.usages);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [currentUsage, setCurrentUsage] = useState<IUsage | null>(() => {
+    if (id) {
+      dispatch(getUsageUnitDetail(id))
+        .unwrap()
+        .then(res => {
+          return res;
+        });
+    }
 
-  const rowSelection: TableRowSelection<DataType> = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-    selections: [
-      {
-        key: 'activating',
-        text: 'Đang kích hoạt',
-        onSelect: changeableRowKeys => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (usageUnits[index].state === 'in-active') {
-              return false;
-            }
-            return true;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-      {
-        key: 'not-activate',
-        text: 'Ngừng kích hoạt',
-        onSelect: changeableRowKeys => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (usageUnits[index].state !== 'in-active') {
-              return false;
-            }
-            return true;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-    ],
-  };
+    return null;
+  });
+  const authorities = useSelector((state: RootState) => state.authority.authorities);
 
-  const filteredData: Array<ExtendedUsage> = usageUnits.map((a, index) => ({
+  interface ExtendedAuthority extends IAuthority {
+    key: string;
+    index: number;
+  }
+
+  const filteredData: Array<ExtendedAuthority> = authorities.map((a, index) => ({
     ...a,
     index: index + 1,
     key: a.id,
   }));
-
+  const columns: ColumnsType<ExtendedAuthority> = [
+    {
+      title: 'STT',
+      dataIndex: 'index',
+      key: 'index',
+      align: 'right',
+      render: (text: string) => <a>{text}</a>,
+    },
+    {
+      title: 'Tên người dùng',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Vai trò',
+      dataIndex: 'role',
+      key: 'role',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Tên đăng nhập',
+      dataIndex: 'username',
+      key: 'username',
+    },
+    {
+      title: 'Cập nhật lần cuối',
+      dataIndex: 'id',
+      key: 'lastupdated',
+      render: () => <>21/04/2021</>,
+    },
+    {
+      title: 'Trạng thái',
+      key: 'state',
+      dataIndex: 'state',
+      render: (state: string, item) => {
+        return (
+          <div className="flex gap-2 items-center">
+            {/* <Switch
+              onChange={() => handleActive({ id: item.id, state: state })}
+              checked={state === 'active'}
+            ></Switch> */}
+            {state === 'active' ? (
+              <>
+                <div className="w-2 h-2 rounded-full bg-green-500"></div> Đã kích hoạt
+              </>
+            ) : (
+              <>
+                <div className="w-2 h-2 rounded-full bg-red-500"></div> Ngừng kích hoạt
+              </>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      title: '',
+      key: 'id',
+      dataIndex: 'id',
+      render: (id: string) => (
+        <Link
+          to={`/manage/usage/authority/${id}`}
+          className={`text-[#FF7506] text-xs underline border-none`}
+        >
+          Xem chi tiết
+        </Link>
+      ),
+    },
+  ];
   useEffect(() => {
-    dispatch(getusageUnit());
-  }, [dispatch]);
+    if (id) {
+      dispatch(getReleventAuthority(id));
+    }
+  }, [dispatch, id, currentUsage?.authorityIds]);
   return (
     <>
-      <div className="h-[770px] px-6 py-4 left-[229px] right-[120px] top-[258px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
-        <Table rowSelection={rowSelection} dataSource={filteredData} columns={columns} />
+      <div className="h-[770px] px-6 py-4 left-[80px] right-[120px] top-[258px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
+        <Table dataSource={filteredData} columns={columns} />
       </div>
-      <div className="w-[665px] left-[229px]  top-[186px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
+      <div className="w-[665px] left-[80px]  top-[186px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <Input
           className=" placeholder:text-gray-500 text-base font-normal font-montserrat leading-normal"
           placeholder="Tên khoản giá trị, số hợp đồng,..."
         />
         <SearchOutlined className="w-6 h-6 text-white relative me-4" />
       </div>
-      <div className="left-[229px] top-[86px] absolute flex-col justify-start items-start inline-flex">
+      <div className="left-[80px] top-[86px] absolute flex-col justify-start items-start inline-flex">
         <div className="p-0.5 opacity-50 justify-start items-center gap-1 inline-flex">
           <Breadcrumb
             separator={
@@ -205,4 +264,4 @@ const Usage = () => {
   );
 };
 
-export default Usage;
+export default UsageDetail;

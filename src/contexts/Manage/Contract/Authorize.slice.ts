@@ -77,8 +77,6 @@ export const addContract = createAsyncThunk(
   'authorizedContract/addContract',
   async (item: Omit<IAuthorizeContract, 'id'>) => {
     try {
-      console.log(item);
-
       const docRef = await addDoc(contractCollection, item);
       return { id: docRef.id, ...item };
     } catch (error) {

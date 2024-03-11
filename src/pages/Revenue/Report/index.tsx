@@ -4,7 +4,7 @@ const Report = () => {
   return (
     <>
       <div className="left-[1810px] top-[189px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>
@@ -18,7 +18,7 @@ const Report = () => {
       <div className="left-[229px] top-[402px] absolute text-stone-50 text-2xl font-bold font-['Montserrat'] leading-normal">
         Biểu đồ theo dõi lượt phát - 29/06/2021
       </div>
-      <div className="w-[1541px] h-[371px] left-[229px] top-[450px] absolute bg-slate-800 bg-opacity-70 rounded-2xl">
+      <div className="w-[1541px] h-[371px] left-[229px] top-[450px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl">
         <div className="w-10 h-[306px] left-[16px] top-[18px] absolute">
           <div className="left-0 top-0 absolute opacity-50 text-violet-50 text-xs font-normal font-['Montserrat'] leading-[18px]">
             9 triệu
@@ -175,7 +175,7 @@ const Report = () => {
       </div>
 
       <div className="w-[1540px] left-[230px] top-[258px] absolute justify-start items-start inline-flex">
-        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-slate-800 bg-opacity-70 rounded-tl-2xl rounded-bl-2xl justify-center items-center gap-24 flex">
+        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-[#2B2B3F] bg-opacity-70 rounded-tl-2xl rounded-bl-2xl justify-center items-center gap-24 flex">
           <div className="grow shrink basis-0 flex-col justify-center items-center gap-2 inline-flex">
             <div className="w-36 opacity-50 text-white text-lg font-bold font-['Montserrat'] leading-normal">
               Tổng số bài hát
@@ -185,7 +185,7 @@ const Report = () => {
             </div>
           </div>
         </div>
-        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-slate-800 bg-opacity-70 justify-start items-center gap-24 flex">
+        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-[#2B2B3F] bg-opacity-70 justify-start items-center gap-24 flex">
           <div className="grow shrink basis-0 flex-col justify-center items-center gap-2 inline-flex">
             <div className="opacity-50 text-white text-lg font-bold font-['Montserrat'] leading-normal">
               Tổng số lượt phát
@@ -195,7 +195,7 @@ const Report = () => {
             </div>
           </div>
         </div>
-        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-slate-800 bg-opacity-70 justify-start items-center gap-24 flex">
+        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-[#2B2B3F] bg-opacity-70 justify-start items-center gap-24 flex">
           <div className="grow shrink basis-0 flex-col justify-center items-center gap-2 inline-flex">
             <div className="opacity-50 text-white text-lg font-bold font-['Montserrat'] leading-normal">
               Doanh thu trên lượt phát
@@ -205,7 +205,7 @@ const Report = () => {
             </div>
           </div>
         </div>
-        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-slate-800 bg-opacity-70 justify-start items-center gap-24 flex">
+        <div className="grow shrink basis-0 h-24 pl-24 py-4 bg-[#2B2B3F] bg-opacity-70 justify-start items-center gap-24 flex">
           <div className="grow shrink basis-0 flex-col justify-center items-center gap-2 inline-flex">
             <div className="opacity-50 text-white text-lg font-bold font-['Montserrat'] leading-normal">
               Doanh thu chưa phân phối
@@ -215,7 +215,7 @@ const Report = () => {
             </div>
           </div>
         </div>
-        <div className="grow shrink basis-0 h-24 px-24 py-5 bg-slate-800 bg-opacity-70 rounded-tr-2xl rounded-br-2xl justify-center items-center gap-24 flex">
+        <div className="grow shrink basis-0 h-24 px-24 py-5 bg-[#2B2B3F] bg-opacity-70 rounded-tr-2xl rounded-br-2xl justify-center items-center gap-24 flex">
           <div className="flex-col justify-center items-center gap-2 inline-flex">
             <div className="opacity-50 text-white text-lg font-bold font-['Montserrat'] leading-normal">
               Hành chính phí

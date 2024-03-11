@@ -77,7 +77,7 @@ const Contract = ({ state = 'authorized' }: { state?: 'authorized' | 'mining' })
       <div className="left-[1810px] top-[250px] absolute flex-col justify-start items-start inline-flex">
         <Link
           to={`${contractType === 'authorized' ? '/manage/contract/authorization-contract/add' : '/manage/contract/mining-contract/add'}`}
-          className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+          className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
         >
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-center items-center gap-2.5 inline-flex">
             <div className="w-8 h-8 relative p-1.5">

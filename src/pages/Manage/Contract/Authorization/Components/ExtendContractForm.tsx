@@ -30,12 +30,7 @@ const ExtendContractForm = ({
         onCancel();
       });
     }
-    console.log(submitData);
   };
-
-  useEffect(() => {
-    console.log(profitType);
-  }, [profitType]);
 
   return (
     <>

@@ -6,7 +6,7 @@ const UserManual = () => {
       <div className="left-[229px] top-[114px] absolute text-white text-4xl font-bold font-['Montserrat'] leading-[48px]">
         Hướng dẫn sử dụng
       </div>
-      <div className="w-[400px] h-[834px] left-[229px] top-[186px] absolute bg-slate-800 bg-opacity-70 rounded-2xl">
+      <div className="w-[400px] h-[834px] left-[229px] top-[186px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl">
         <div className="w-[400px] h-[76px] left-0 top-0 absolute bg-gray-700">
           <div className="w-[274px] h-7 left-[24px] top-[24px] absolute text-white text-2xl font-bold font-['Montserrat'] leading-normal">
             Danh mục hướng dẫn
@@ -54,7 +54,7 @@ const UserManual = () => {
         </div>
         <div className="w-1 h-11 left-0 top-[100px] absolute bg-orange-500 rounded-md" />
       </div>
-      <div className="w-[1211px] h-[834px] left-[669px] top-[186px] absolute bg-slate-800 bg-opacity-70 rounded-2xl">
+      <div className="w-[1211px] h-[834px] left-[669px] top-[186px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl">
         <div className="left-[412px] top-[24px] absolute text-orange-500 text-2xl font-bold font-['Montserrat'] leading-normal">
           Lorem ipsum dolor sit amet
         </div>

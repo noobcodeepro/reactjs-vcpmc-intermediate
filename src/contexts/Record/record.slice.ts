@@ -12,7 +12,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { IAuthorizeContract, contractCollection } from '../Manage/Contract/Authorize.slice';
+import { IAuthorizeContract } from '../Manage/Contract/Authorize.slice';
 import React from 'react';
 
 interface IState {
@@ -71,12 +71,6 @@ export const approveRecord = createAsyncThunk(
           approvedAt: currentTime,
         });
 
-        console.log({
-          ...data,
-          id: docRef.id,
-          approvedAt: currentTime,
-        });
-
         return {
           ...data,
           id: data?.id,
@@ -110,8 +104,6 @@ export const getDetailRecord = createAsyncThunk('records/getRecord', async (id: 
 
 export const addRecord = createAsyncThunk('records/addRecord', async (item: Omit<Record, 'id'>) => {
   try {
-    console.log(item);
-
     const docRef = await addDoc(recordCollection, item);
     return { id: docRef.id, ...item };
   } catch (error) {
@@ -136,8 +128,6 @@ export const updateRecord = createAsyncThunk(
     id: string;
   }) => {
     const docRef = doc(db, `/records/${id}`);
-    console.log((await getDoc(docRef)).data());
-
     await updateDoc(docRef, item);
   },
 );
@@ -145,7 +135,7 @@ export const updateRecord = createAsyncThunk(
 export const denyApproveRecord = createAsyncThunk(
   'records/denyApprove',
   async ({ idList, denyReason }: { idList: Array<React.Key>; denyReason: string }) => {
-    const denyRecords = await Promise.all(
+    await Promise.all(
       idList.map(async id => {
         const docRef = doc(db, `/records/${id}`);
         const data = (await getDoc(docRef)).data() as Record;
@@ -179,7 +169,6 @@ export const recordSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(approveRecord.fulfilled, (state, action) => {
-        console.log(action.payload);
         const arrayList = action.payload.idList;
         const approvedAt = action.payload.currentTime;
         state.records.map((r, index) => {

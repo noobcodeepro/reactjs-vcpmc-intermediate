@@ -1,25 +1,10 @@
-import { PlusOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons';
-import {
-  Breadcrumb,
-  Button,
-  Flex,
-  Input,
-  Select,
-  SelectProps,
-  TableProps,
-  Upload,
-  UploadProps,
-  message,
-} from 'antd';
-import { useForm } from 'antd/es/form/Form';
-import TextArea from 'antd/es/input/TextArea';
+import { SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Input, Select, SelectProps, TableProps } from 'antd';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Table from '../../components/Table';
-import { formatTime } from '../../utils/formatTime';
-import { parseToInt } from '../../utils/parseToInt';
 import { Record } from '../../types/record.type';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../contexts/store';
 import { addRecordToPlaylist, deleteAddedRecord } from '../../contexts/Playlist/playlist.slice';
 import { getRecords } from '../../contexts/Record/record.slice';
@@ -52,18 +37,6 @@ const breadCrumbItems = [
     ),
   },
 ];
-const props: UploadProps = {
-  beforeUpload: file => {
-    const isPNG = file.type === 'image/png';
-    if (!isPNG) {
-      message.error(`${file.name} is not a png file`);
-    }
-    return isPNG || Upload.LIST_IGNORE;
-  },
-  onChange: info => {
-    console.log(info.fileList);
-  },
-};
 
 type ColumnsType<T extends object> = TableProps<T>['columns'];
 
@@ -71,13 +44,6 @@ export interface ExtendedRecord extends Record {
   key: string;
   index: number;
 }
-
-const AddRecordToPlayList = ({ id }: { id: string }) => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(addRecordToPlaylist(id));
-  }, []);
-};
 
 const options: SelectProps['options'] = [];
 
@@ -88,12 +54,7 @@ for (let i = 10; i < 36; i++) {
   });
 }
 
-const handleChange = (value: string | string[]) => {
-  console.log(`Selected: ${value}`);
-};
-
 const AddRecord = () => {
-  const [form] = useForm();
   const records = useSelector((state: RootState) => state.record.records) || [];
 
   const data: ExtendedRecord[] = records.map((record, index) => ({
@@ -148,7 +109,7 @@ const AddRecord = () => {
       title: '',
       key: 'id',
       dataIndex: 'id',
-      render: (id: string) => <Button className="text-[#FF7506] text-xs underline">Nghe</Button>,
+      render: () => <Button className="text-[#FF7506] text-xs underline">Nghe</Button>,
     },
     {
       title: '',
@@ -198,7 +159,7 @@ const AddRecord = () => {
       title: '',
       key: 'id',
       dataIndex: 'id',
-      render: (id: string) => <Button className="text-[#FF7506] text-xs underline">Nghe</Button>,
+      render: () => <Button className="text-[#FF7506] text-xs underline">Nghe</Button>,
     },
     {
       title: '',
@@ -268,10 +229,10 @@ const AddRecord = () => {
               </div>
             </div>
 
-            <div className="w-[418px] bg-[#33334D] rounded-lg justify-between items-center inline-flex">
+            <div className=" rounded-lg justify-between items-center inline-flex">
               <Input
                 type="text"
-                className="px-6 py-3 text-white  focus:bg-transparent hover:bg-transparent placeholder:text-[#727288] border-none focus:ring-0 h-full text-base font-normal font-['Montserrat'] leading-normal"
+                className="my-2 text-white  focus:bg-transparent hover:bg-transparent placeholder:text-[#727288] border-none focus:ring-0 h-full text-base font-normal font-['Montserrat'] leading-normal"
                 placeholder="Tên bản ghi ca sĩ..."
               />
               <div className="p-3 text-white">

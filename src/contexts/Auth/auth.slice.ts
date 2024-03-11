@@ -34,8 +34,6 @@ export const getUser = createAsyncThunk('auth/getUser', async () => {
 
   // Additional infomation query
   if (user) {
-    console.log('Get user');
-
     const userDoc = await doc(db, 'users', user.uid);
     await getDoc(userDoc).then(res => {
       otherFields = res.data();
@@ -149,7 +147,6 @@ export const authSlice = createSlice({
         // return action.payload.otherFields;
       })
       .addCase(authLogin.rejected, (_, action) => {
-        console.log(action);
         const error = {
           message: '',
         };

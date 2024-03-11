@@ -39,10 +39,7 @@ const AddContract = ({ copied = false }: { copied?: boolean }) => {
         alert('Error');
       }
     }
-    if (edittingContract) {
-      console.log(edittingContract);
-    }
-  }, [edittingContract]);
+  }, [edittingContract, dispatch, id, copied]);
 
   const breadCrumbItems = edittingContract?.id
     ? [

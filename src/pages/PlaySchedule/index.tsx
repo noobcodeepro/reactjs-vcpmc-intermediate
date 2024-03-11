@@ -7,7 +7,7 @@ const PlaySchedule = () => {
         </div>
       </div>
       <div className="left-[1810px] top-[189px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>
@@ -16,7 +16,7 @@ const PlaySchedule = () => {
           </div>
         </div>
       </div>
-      <div className="w-[1541px] h-[882px] px-6 py-4 left-[229px] top-[158px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-between items-start inline-flex">
+      <div className="w-[1541px] h-[882px] px-6 py-4 left-[229px] top-[158px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-between items-start inline-flex">
         <div className="w-[1493px] h-[447px] justify-start items-start inline-flex">
           <div className="w-[110px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
@@ -318,7 +318,7 @@ const PlaySchedule = () => {
             <div className="w-[58.45px] opacity-70 text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
               Hiển thị{' '}
             </div>
-            <div className="w-[48.37px] h-8 relative bg-slate-800 rounded border border-orange-500">
+            <div className="w-[48.37px] h-8 relative bg-[#2B2B3F] rounded border border-orange-500">
               <div className="left-[20.19px] top-[6px] absolute text-center text-violet-50 text-base font-normal font-['Source Sans Pro'] leading-tight">
                 8
               </div>

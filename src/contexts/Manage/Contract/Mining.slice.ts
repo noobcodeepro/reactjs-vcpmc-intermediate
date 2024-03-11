@@ -75,8 +75,6 @@ export const addContract = createAsyncThunk(
   'miningContract/addContract',
   async (item: Omit<IMiningContract, 'id'>) => {
     try {
-      console.log(item);
-
       const docRef = await addDoc(contractCollection, item);
       return { id: docRef.id, ...item };
     } catch (error) {

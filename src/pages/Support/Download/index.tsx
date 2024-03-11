@@ -3,7 +3,7 @@ import React from 'react';
 const Download = () => {
   return (
     <>
-      <div className="w-[350px] h-[373px] left-[409px] top-[570px] absolute bg-slate-800 bg-opacity-70 rounded-2xl">
+      <div className="w-[350px] h-[373px] left-[409px] top-[570px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl">
         <div className="px-6 py-4 left-[71px] top-[285px] absolute bg-orange-500 rounded-lg justify-center items-center gap-2 inline-flex">
           <div className="w-40 text-center text-white text-lg font-medium font-['Montserrat'] leading-normal tracking-tight">
             Tool Upload
@@ -15,7 +15,7 @@ const Download = () => {
           </div>
         </div>
       </div>
-      <div className="w-[350px] h-[373px] left-[870px] top-[570px] absolute bg-slate-800 bg-opacity-70 rounded-2xl">
+      <div className="w-[350px] h-[373px] left-[870px] top-[570px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl">
         <div className="px-6 py-4 left-[71px] top-[285px] absolute bg-orange-500 rounded-lg justify-center items-center gap-2 inline-flex">
           <div className="w-40 text-center text-white text-lg font-medium font-['Montserrat'] leading-normal tracking-tight">
             Tải App Window
@@ -26,7 +26,7 @@ const Download = () => {
           src="https://via.placeholder.com/154x142"
         />
       </div>
-      <div className="w-[350px] h-[373px] left-[1331px] top-[570px] absolute bg-slate-800 bg-opacity-70 rounded-2xl">
+      <div className="w-[350px] h-[373px] left-[1331px] top-[570px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl">
         <div className="px-6 py-4 left-[71px] top-[285px] absolute bg-orange-500 rounded-lg justify-center items-center gap-2 inline-flex">
           <div className="w-40 text-center text-white text-lg font-medium font-['Montserrat'] leading-normal tracking-tight">
             Tải App Android

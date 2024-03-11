@@ -3,13 +3,13 @@ import React from 'react';
 const Contracts = () => {
   return (
     <>
-      <div className="w-[501px] px-6 py-3 left-[1261px] top-[250px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[501px] px-6 py-3 left-[1261px] top-[250px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
           Tên hợp đồng, số hợp đồng, người uỷ quyền...
         </div>
         <div className="w-6 h-6 relative" />
       </div>
-      <div className="h-[727px] px-6 py-4 left-[229px] top-[322px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
+      <div className="h-[727px] px-6 py-4 left-[229px] top-[322px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
         <div className="self-stretch justify-start items-start inline-flex">
           <div className="w-[99px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
@@ -153,7 +153,7 @@ const Contracts = () => {
             <div className="w-[58.45px] opacity-70 text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
               Hiển thị{' '}
             </div>
-            <div className="w-[48.37px] h-8 relative bg-slate-800 rounded border border-orange-500">
+            <div className="w-[48.37px] h-8 relative bg-[#2B2B3F] rounded border border-orange-500">
               <div className="left-[16.19px] top-[6px] absolute text-center text-violet-50 text-base font-normal font-['Source Sans Pro'] leading-tight">
                 13
               </div>
@@ -223,7 +223,7 @@ const Contracts = () => {
         </div>
       </div>
       <div className="left-[1810px] top-[250px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>

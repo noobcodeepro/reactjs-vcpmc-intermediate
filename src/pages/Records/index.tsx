@@ -159,7 +159,6 @@ const Records = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [denyApproveModal, setDenyApproveModal] = useState(false);
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -188,11 +187,7 @@ const Records = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      dispatch(getRecords())
-        .unwrap()
-        .then(res => {
-          console.log(res);
-        });
+      dispatch(getRecords());
     };
     fetchData();
   }, [dispatch, denyApproveModal]);
@@ -201,7 +196,7 @@ const Records = () => {
 
   return (
     <>
-      <div className="w-[517px] left-[229px] top-[158px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[517px] left-[229px] top-[158px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <Input
           type="text"
           className="px-6 py-3 text-white bg-transparent focus:bg-transparent hover:bg-transparent placeholder:text-[#727288] border-none focus:ring-0 h-full text-base font-normal font-['Montserrat'] leading-normal"
@@ -315,7 +310,7 @@ const Records = () => {
           <>
             <div
               onClick={() => setApproveMode(true)}
-              className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+              className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
             >
               <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
                 <EditOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />
@@ -333,7 +328,7 @@ const Records = () => {
           <>
             <div
               onClick={handleApprove}
-              className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+              className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
             >
               <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
                 <CheckOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />
@@ -345,7 +340,7 @@ const Records = () => {
 
             <div
               onClick={() => setDenyApproveModal(true)}
-              className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+              className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
             >
               <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
                 <CloseOutlined className="text-3xl w-8 h-8 relative text-[#FF7506]" />

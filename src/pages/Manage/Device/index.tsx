@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Pagination from '../../../components/Pagination';
 import { useNavigate } from 'react-router-dom';
 import {
   IDevice,
   activeDevice,
+  banDevices,
   deactiveDevice,
+  deleteDevices,
   getDevices,
 } from '../../../contexts/Manage/Device/Device.slice';
-import { TableProps } from 'antd';
+import { Checkbox, Select, TableProps } from 'antd';
 import { getDateString } from './../../../utils/getDateString';
 import { RootState, useAppDispatch } from '../../../contexts/store';
 import { useSelector } from 'react-redux';
 import Table from '../../../components/Table';
+import {
+  DeleteOutlined,
+  LockOutlined,
+  PlusOutlined,
+  PoweroffOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 
 interface ExtendedDevice extends IDevice {
   key: string;
@@ -104,7 +112,6 @@ const Device = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -129,6 +136,13 @@ const Device = () => {
     }
   };
 
+  const handleDelete = () => {
+    dispatch(deleteDevices({ idList: selectedRowKeys }));
+  };
+
+  const handleBan = () => {
+    dispatch(banDevices({ idList: selectedRowKeys }));
+  };
   const isActiveDevice = () => {
     const device = filteredData.find(f => selectedRowKeys[0] === f.id);
 
@@ -140,20 +154,18 @@ const Device = () => {
   }, []);
   return (
     <>
-      <div className="w-[665px] px-6 py-3 right-[120px] top-[158px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[665px] px-6 py-3 right-[120px] top-[158px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
           Tìm thiết bị theo tên, SKU, địa điểm, địa chỉ Mac
         </div>
-        <div className="w-6 h-6 relative" />
+        <SearchOutlined className="w-6 h-6 relative text-white" />
       </div>
       <div className="h-[520px] left-[1810px] top-[158px] absolute flex-col justify-start items-start inline-flex">
         <div
           onClick={() => navigate('/manage/device/add')}
-          className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl flex-col justify-center items-center gap-2.5 flex"
+          className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl flex-col justify-center items-center gap-2.5 flex"
         >
-          <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
-            <div className="w-8 h-8 relative" />
-          </div>
+          <PlusOutlined className="p-4 text-[#FF7506] bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex"></PlusOutlined>
           <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
             Thêm
             <br />
@@ -162,11 +174,9 @@ const Device = () => {
         </div>
         <div
           onClick={handleActive}
-          className="self-stretch h-[130px] p-4 bg-slate-800 flex-col justify-center items-center gap-2.5 flex"
+          className="self-stretch h-[130px] p-4 bg-[#2B2B3F] flex-col justify-center items-center gap-2.5 flex"
         >
-          <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
-            <div className="w-8 h-8 relative" />
-          </div>
+          <PoweroffOutlined className="p-4 text-[#FF7506] bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex"></PoweroffOutlined>
           <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
             {isActiveDevice() ? (
               <>
@@ -182,20 +192,22 @@ const Device = () => {
             )}
           </div>
         </div>
-        <div className="self-stretch h-[130px] p-4 bg-slate-800 flex-col justify-center items-center gap-2.5 flex">
-          <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
-            <div className="w-8 h-8 relative" />
-          </div>
+        <div
+          onClick={handleBan}
+          className="self-stretch h-[130px] p-4 bg-[#2B2B3F] flex-col justify-center items-center gap-2.5 flex"
+        >
+          <LockOutlined className="p-4 text-[#FF7506] bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex"></LockOutlined>
           <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
             Khoá
             <br />
             thiết bị
           </div>
         </div>
-        <div className="self-stretch h-[130px] p-4 bg-slate-800 rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
-          <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
-            <div className="w-8 h-8 relative" />
-          </div>
+        <div
+          onClick={handleDelete}
+          className="self-stretch h-[130px] p-4 bg-[#2B2B3F] rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+        >
+          <DeleteOutlined className="p-4 text-[#FF7506] bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex"></DeleteOutlined>
           <div className="self-stretch opacity-70 text-center text-white text-xs font-medium font-['Montserrat'] leading-[18px] tracking-tight">
             Xoá <br />
             thiết bị
@@ -207,709 +219,96 @@ const Device = () => {
           Danh sách thiết bị
         </div>
       </div>
-      <div className="w-[274px] h-10 pl-4 pr-3 py-3 left-[229px] top-[158px] absolute bg-zinc-800 rounded-lg border border-orange-500 justify-between items-center inline-flex">
-        <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
-          Chọn nhóm tài khoản
-        </div>
-        <div className="w-6 h-6 relative" />
-      </div>
-      <div className="w-[230px] h-10 pl-4 pr-3 py-3 left-[527px] top-[158px] absolute bg-zinc-800 rounded-lg border border-orange-500 justify-between items-center inline-flex">
-        <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
-          Ẩn hiện cột
-        </div>
-        <div className="w-6 h-6 relative" />
-      </div>
+      <Select
+        placeholder={
+          <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
+            Chọn nhóm tài khoản
+          </div>
+        }
+        className="w-[274px] h-10 left-[229px] top-[158px] absolute bg-zinc-800 rounded-lg border border-orange-500 justify-between items-center inline-flex"
+      >
+        <Select.Option value={0}>
+          <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
+            Tất cả
+          </div>
+        </Select.Option>
+        <Select.Option value={0}>
+          <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
+            Công ty TMCP Bách Hóa Xanh
+          </div>
+        </Select.Option>
+      </Select>
+      <Select
+        placeholder={
+          <div className="text-violet-50 text-base font-normal font-['Montserrat'] leading-normal">
+            Ẩn hiện cột
+          </div>
+        }
+        className="w-[230px] h-10 left-[527px] top-[158px] absolute bg-zinc-800 rounded-lg border border-orange-500 justify-between items-center inline-flex"
+      >
+        <Select.Option value={0} hidden>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>MAC Address</div>
+          </div>
+        </Select.Option>
+        <Select.Option>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>Memory</div>
+          </div>
+        </Select.Option>
+        <Select.Option>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>SKU/ID</div>
+          </div>
+        </Select.Option>
+        <Select.Option>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>Hạn bảo hành</div>
+          </div>
+        </Select.Option>
+        <Select.Option>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>Tên đăng nhập</div>
+          </div>
+        </Select.Option>
+        <Select.Option>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>Trạng thái</div>
+          </div>
+        </Select.Option>
+        <Select.Option>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>Địa điểm</div>
+          </div>
+        </Select.Option>
+        <Select.Option>
+          <div className="flex items-center gap-2">
+            <Checkbox />
+            <div>Hợp đồng</div>
+          </div>
+        </Select.Option>
+      </Select>
+
       <div className="left-[229px] right-[120px] top-[230px] absolute">
-        <div className="self-stretch justify-start items-start inline-flex">
-          {/* <div className="w-[71px] flex-col justify-center items-start inline-flex">
-            <div className="self-stretch h-12 py-2 justify-start items-start gap-1 inline-flex">
-              <div className="w-10 h-6 relative">
-                <div className="w-6 h-6 left-0 top-0 absolute" />
-                <div className="w-3 h-3 left-[40px] top-[6px] absolute origin-top-left rotate-90" />
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[35px] pt-[11px] opacity-80 flex-col justify-center items-start gap-3 flex">
-              <div className="w-6 h-6 relative" />
-            </div>
-          </div>
-          <div className="w-[85px] flex-col justify-center items-start inline-flex">
-            <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
-              <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
-                STT
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                1
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                2
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                3
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                4
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                5
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                6
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                7
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                8
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                9
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                10
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                11
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                12
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-8 pt-3 opacity-80 flex-col justify-center items-start gap-[15px] flex">
-              <div className="w-[35px] text-right text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                13
-              </div>
-            </div>
-          </div>
-          <div className="w-[151px] flex-col justify-start items-start inline-flex">
-            <div className="h-12 py-2 justify-start items-start gap-2 inline-flex">
-              <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
-                Tên thiết bị
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-9 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-start items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-center items-start gap-[7px] flex">
-              <div className="self-stretch h-[34px] text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-1.5 opacity-80 flex-col justify-center items-start gap-1 flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                Device A12231
-              </div>
-            </div>
-          </div>
-          <div className="w-[311px] h-[659px] flex-col justify-start items-start inline-flex">
-            <div className="h-12 pr-2 py-2 justify-start items-start gap-2 inline-flex">
-              <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
-                Trạng thái
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-red-500 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Ngừng kích hoạt
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-red-500 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang bị khoá
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-red-500 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang bị khoá
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-red-500 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Ngừng kích hoạt
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-8 pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="justify-center items-center gap-1 inline-flex">
-                <div className="w-2 h-2 bg-green-600 rounded-full" />
-                <div className="opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                  Đang kích hoạt | Đang hoạt động{' '}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-[391px] flex-col justify-start items-start inline-flex">
-            <div className="h-12 pr-2 py-2 justify-start items-start gap-2 inline-flex">
-              <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
-                Địa điểm
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-8 pt-3 opacity-80 flex-col justify-between items-start flex">
-              <div className="self-stretch opacity-80 text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh
-              </div>
-            </div>
-          </div>
-          <div className="w-[157px] flex-col justify-start items-start inline-flex">
-            <div className="h-12 pr-2 py-2 justify-start items-start gap-2 inline-flex">
-              <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
-                Hạn hợp đồng
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-8 pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                21/04/2021
-              </div>
-            </div>
-          </div>
-          <div className="w-[146px] flex-col justify-start items-start inline-flex">
-            <div className="h-12 pr-2 py-2 justify-start items-start gap-2 inline-flex">
-              <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
-                MAC Addresss
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.10
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.11
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.12
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.13
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.14
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.15
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.16
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.17
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.18
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.19
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.20
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.21
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-8 pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-white text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                123.12.156.21
-              </div>
-            </div>
-          </div>
-          <div className="grow shrink basis-0 flex-col justify-start items-start inline-flex">
-            <div className="h-12 pr-2 py-2 justify-start items-start gap-2 inline-flex">
-              <div className="text-orange-300 text-sm font-bold font-['Montserrat'] leading-tight tracking-tight">
-                Memory
-              </div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-[47px] pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-              <div className="self-stretch h-[0px] opacity-30 border border-gray-500"></div>
-            </div>
-            <div className="self-stretch h-8 pt-3 opacity-80 flex-col justify-start items-start gap-[15px] flex">
-              <div className="self-stretch text-violet-50 text-sm font-normal font-['Montserrat'] leading-tight tracking-tight">
-                0.00GB/32GB
-              </div>
-            </div>
-          </div> */}
-        </div>
-        {/* <Pagination /> */}
-        <Table rowSelection={rowSelection} dataSource={filteredData} columns={columns} />
+        <Table
+          onRow={item => {
+            return {
+              onClick: () => {
+                navigate(`/manage/device/${item.id}`);
+              },
+            };
+          }}
+          rowSelection={rowSelection}
+          dataSource={filteredData}
+          columns={columns}
+        />
       </div>
     </>
   );

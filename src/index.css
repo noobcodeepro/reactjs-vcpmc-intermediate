@@ -31,6 +31,12 @@ html {
   line-height: 1.5rem;
 }
 
+form.ant-form input,
+form.ant-form .ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+  border: 1px solid #727288;
+  margin-bottom: 16px;
+}
+
 .ant-input-outlined.ant-input-status-error:not(.ant-input-disabled):focus {
   background-color: transparent;
 }
@@ -284,4 +290,17 @@ textarea.ant-input::placeholder {
   width: 20px;
   height: 20px;
   margin-left: 4px;
+}
+
+/* Dropdown */
+
+.ant-dropdown .ant-dropdown-menu,
+:where(.css-dev-only-do-not-override-11hkvyh).ant-dropdown-menu-submenu .ant-dropdown-menu {
+  background-color: #3e3e5b;
+  margin-left: 28px;
+  margin-top: -20px;
+}
+
+span.ant-dropdown-menu-title-content {
+  color: white;
 }

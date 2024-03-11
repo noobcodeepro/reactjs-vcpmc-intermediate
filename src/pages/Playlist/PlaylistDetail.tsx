@@ -97,8 +97,7 @@ const PlaylistDetail = () => {
       title: '',
       key: 'id',
       dataIndex: 'id',
-      render: (id: string, item) => {
-        const newItem = item as Record;
+      render: (id: string) => {
         return (
           <Button
             className="border-none text-[#FF7506] text-xs underline"
@@ -161,9 +160,7 @@ const PlaylistDetail = () => {
 
       dispatch(getRecords());
     }
-  }, []);
-
-  console.log(currentPlaylist?.songs);
+  }, [dispatch, id]);
 
   return (
     <div>
@@ -259,7 +256,7 @@ const PlaylistDetail = () => {
       <div className="right-[0px] top-[250px] absolute flex-col justify-start items-start inline-flex rounded-bl-2xl">
         <div
           onClick={handleStartEdit}
-          className="h-[130px] p-4 bg-slate-800 flex-col justify-center items-center gap-2.5 flex"
+          className="h-[130px] p-4 bg-[#2B2B3F] flex-col justify-center items-center gap-2.5 flex"
         >
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-center items-center gap-2.5 inline-flex">
             <div className="w-8 h-8 relative p-1.5">
@@ -272,7 +269,7 @@ const PlaylistDetail = () => {
         </div>
         <div
           onClick={handleDelete}
-          className="h-[130px] p-4 bg-slate-800   flex-col justify-center items-center gap-2.5 flex"
+          className="h-[130px] p-4 bg-[#2B2B3F]   flex-col justify-center items-center gap-2.5 flex"
         >
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-center items-center gap-2.5 inline-flex">
             <div className="w-8 h-8 relative p-1.5">

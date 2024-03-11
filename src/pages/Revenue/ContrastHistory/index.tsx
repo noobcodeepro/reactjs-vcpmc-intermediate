@@ -4,7 +4,7 @@ import Pagination from '../../../components/Pagination';
 const ContrastHistory = () => {
   return (
     <>
-      <div className="w-[1541px] h-[752px] px-6 py-4 left-[229px] top-[306px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
+      <div className="w-[1541px] h-[752px] px-6 py-4 left-[229px] top-[306px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
         <div className="w-[1493px] h-[644px] justify-start items-start inline-flex">
           <div className="w-[60px] flex-col justify-center items-start inline-flex">
             <div className="self-stretch h-12 pl-2 py-2 justify-start items-start gap-2 inline-flex">
@@ -848,7 +848,7 @@ const ContrastHistory = () => {
         </div>
         <Pagination />
       </div>
-      <div className="w-[665px] px-6 py-3 left-[1105px] top-[186px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[665px] px-6 py-3 left-[1105px] top-[186px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
           Nhập tên tài khoản quản trị
         </div>
@@ -858,7 +858,7 @@ const ContrastHistory = () => {
       <div className="left-[231px] top-[258px] absolute text-neutral-200 text-2xl font-bold font-['Montserrat'] leading-normal">
         Danh sách hợp đồng khai thác đã đối soát
       </div>
-      <div className="w-[217px] px-4 pt-[11px] pb-[13px] left-[413px] top-[186px] absolute bg-slate-800 rounded-lg border border-gray-500 justify-between items-center inline-flex">
+      <div className="w-[217px] px-4 pt-[11px] pb-[13px] left-[413px] top-[186px] absolute bg-[#2B2B3F] rounded-lg border border-gray-500 justify-between items-center inline-flex">
         <div className="text-white text-base font-normal font-['Montserrat'] leading-normal">
           Tháng 3
         </div>
@@ -871,7 +871,7 @@ const ContrastHistory = () => {
       </div>
 
       <div className="left-[1810px] top-[186px] absolute flex-col justify-start items-start inline-flex">
-        <div className="h-28 p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
+        <div className="h-28 p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex">
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />
           </div>

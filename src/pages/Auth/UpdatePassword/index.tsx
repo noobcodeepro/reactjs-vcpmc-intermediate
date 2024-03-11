@@ -25,8 +25,7 @@ const UpdatePassword = ({
     e.preventDefault();
     if (newPassword === confirmPassword) {
       handleUpdatePassword(currentPassword, newPassword)
-        .then(res => {
-          console.log(res);
+        .then(() => {
           setCurrentPassword('');
           setNewPassword('');
           setConfirmPassword('');

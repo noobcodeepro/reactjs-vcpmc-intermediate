@@ -12,8 +12,6 @@ const RecordForm = ({ currentRecord, form }: { currentRecord: Record; form: Form
   const navigate = useNavigate();
   const { id } = useParams();
   const onFinish = () => {
-    console.log('GO');
-    console.log(id);
     if (id) {
       dispatch(updateRecord({ id: id, item: form.getFieldsValue() })).then(() => {
         navigate('/records');

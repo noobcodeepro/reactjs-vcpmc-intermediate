@@ -1,40 +1,16 @@
 import { Breadcrumb, Button, DatePicker, Form, Input, Select } from 'antd';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
-import { useEffect } from 'react';
 import TextArea from 'antd/es/input/TextArea';
-import { RootState, useAppDispatch } from '../../../contexts/store';
-import { useSelector } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { IDevice, addDevice } from '../../../contexts/Manage/Device/Device.slice';
+import { useAppDispatch } from '../../../contexts/store';
 
 const AddDevice = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const [form] = useForm();
   const navigate = useNavigate();
-  //   const edittingContract = useSelector((state: RootState) => state.miningContract.edittingContract);
-
-  useEffect(() => {
-    // if (id && copied) {
-    //   const fetchData = async (id: string) => {
-    //     const docRef = await doc(db, 'miningContracts', id);
-    //     return getDoc(docRef).then(doc => {
-    //       return { ...doc.data(), id: doc.id } as IMiningContract;
-    //     });
-    //   };
-    //   if (id) {
-    //     fetchData(id).then(res => {
-    //       dispatch(startEdittingContract(res));
-    //     });
-    //   } else {
-    //     alert('Error');
-    //   }
-    // }
-    // if (edittingContract) {
-    //   console.log(edittingContract);
-    // }
-  }, []);
 
   const breadCrumbItems = [
     {
@@ -66,15 +42,14 @@ const AddDevice = () => {
 
   const onFinish = () => {
     const submitData = form.getFieldsValue();
-    const time = new Date();
-    console.log(submitData);
+
     const data: Omit<IDevice, 'id'> = {
       nameDevice: submitData.nameDevice,
       macAddress: submitData.macAddress,
       expireDate: submitData.expireDate.valueOf(),
       note: submitData.note,
       skuid: submitData.skuid,
-      state: 'not-active',
+      state: 'in-active',
       userAccount: {
         address: submitData.address,
         password: submitData.password,
@@ -87,47 +62,6 @@ const AddDevice = () => {
         navigate('/manage/device');
       });
     }
-    // const data: Omit<IMiningContract, 'id'> = {
-    //   contractId: submitData.contractId,
-    //   cancelReason: edittingContract?.cancelReason ? edittingContract?.cancelReason : '',
-    //   createAt: time.getTime(),
-    //   startDate: submitData.startDate.valueOf(),
-    //   endDate: submitData.endDate.valueOf(),
-    //   name: submitData.contractName,
-    //   contractUnit: {
-    //     bank: submitData.bank,
-    //     dob: submitData.dob.valueOf(),
-    //     email: submitData.email,
-    //     gender: submitData.gender,
-    //     idNumber: parseToInt(submitData.idNumber),
-    //     idProvideAt: submitData.idProvideAt,
-    //     idProvideDate: submitData.idProvideDate.valueOf(),
-    //     nationality: submitData.nationality,
-    //     password: submitData.password,
-    //     phoneNumber: submitData.phoneNumber,
-    //     representer: submitData.representer,
-    //     unitName: submitData.unitName,
-    //     username: submitData.username,
-    //     address: submitData.address,
-    //     bankNumber: parseToInt(submitData.bankNumber),
-    //     role: submitData.role,
-    //     taxCode: parseToInt(submitData.taxCode),
-    //   },
-    //   type: {
-    //     name: submitData.typeName,
-    //     contractValue: submitData.typeName === 'allIn' ? submitData.contractValue : '0',
-    //     distributeValue: submitData.typeName === 'allIn' ? submitData.distributeValue : '0',
-    //     playsValue: submitData.typeName === 'plays' ? submitData.playsValue : '0',
-    //   },
-    // };
-
-    // if (edittingContract && !copied) {
-    //   dispatch(updateContract({ item: data, id: edittingContract.id }));
-    //   navigate('/manage/mining-contract');
-    // } else {
-    //   dispatch(AddDevice(data));
-    //   navigate('/manage/mining-contract');
-    // }
   };
 
   return (

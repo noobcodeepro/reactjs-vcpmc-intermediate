@@ -33,11 +33,20 @@ import AddPlaylist from './pages/Playlist/AddPlaylist';
 import AddRecord from './pages/Playlist/AddRecord';
 import PlaylistDetail from './pages/Playlist/PlaylistDetail';
 import AddDevice from './pages/Manage/Device/AddDevice';
+import DeviceDetail from './pages/Manage/Device/DeviceDetail';
+import AddPlaySchedule from './pages/PlaySchedule/AddPlaySchedule';
+import AddAuthority from './pages/Manage/Authority/AddAuthority';
+import UsageDetail from './pages/Manage/Usage/UsageDetail';
+import AuthorityDetail from './pages/Manage/Authority/AuthorityDetail';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+  },
+  {
+    path: '/play-schedule/add',
+    element: <AddPlaySchedule />,
   },
   {
     path: '/',
@@ -208,6 +217,10 @@ const router = createBrowserRouter([
         element: <AddDevice />,
       },
       {
+        path: '/manage/device/:id',
+        element: <DeviceDetail />,
+      },
+      {
         path: '/playlist/add',
         element: <AddPlaylist />,
       },
@@ -222,6 +235,26 @@ const router = createBrowserRouter([
       {
         path: '/playlist/d/:id',
         element: <PlaylistDetail />,
+      },
+      {
+        path: '/play-schedule/add',
+        element: <AddPlaySchedule />,
+      },
+      {
+        path: '/manage/authority/u/:id',
+        element: <AddAuthority />,
+      },
+      {
+        path: 'manage/usage/d/:id',
+        element: <UsageDetail />,
+      },
+      {
+        path: '/manage/usage/authority/:id',
+        element: <AuthorityDetail />,
+      },
+      {
+        path: 'manage/usage/device/e/:id',
+        element: <AddAuthority usage={true} />,
       },
     ],
   },

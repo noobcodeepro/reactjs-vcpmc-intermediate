@@ -24,11 +24,6 @@ const AddContract = () => {
   const [contractType, setContractType] = useState(
     edittingContract?.authorizedEntity.type === 'group' ? 'group' : 'individual',
   );
-  useEffect(() => {
-    if (edittingContract) {
-      console.log(edittingContract);
-    }
-  }, [edittingContract]);
 
   const breadCrumbItems = edittingContract?.id
     ? [
@@ -98,7 +93,6 @@ const AddContract = () => {
   const onFinish = () => {
     const submitData = form.getFieldsValue();
     const time = new Date();
-    console.log(time.getTime());
 
     const data: Omit<IAuthorizeContract, 'id'> = {
       authorizer: submitData.authorizer,

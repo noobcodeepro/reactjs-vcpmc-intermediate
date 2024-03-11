@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { db } from '../../../lib/firebase';
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 
 type DeviceState = 'active' | 'ban' | 'in-active';
 
@@ -43,15 +43,16 @@ export const getDevices = createAsyncThunk<Array<IDevice>>('devices/getAll', asy
   return filteredData;
 });
 
-// export const getContract = createAsyncThunk('athorizedContract/get', async (id: string) => {
-//   const docRef = await getDoc(doc(db, `/Device/${id}`));
-//   return docRef.data();
-// })
+export const getDevice = createAsyncThunk('devices/get', async (id: string) => {
+  const docRef = await getDoc(doc(db, `/devices/${id}`));
+  return {
+    ...docRef.data(),
+    id: docRef.id,
+  } as IDevice;
+});
 
 export const addDevice = createAsyncThunk('devices/add', async (item: Omit<IDevice, 'id'>) => {
   try {
-    console.log(item);
-
     const docRef = await addDoc(deviceCollection, item);
     return { id: docRef.id, ...item };
   } catch (error) {
@@ -79,7 +80,25 @@ export const activeDevice = createAsyncThunk(
     const ids = await Promise.all(
       idList.map(async id => {
         const docRef = doc(db, `/devices/${id}`);
-        await updateDoc(docRef, { state: 'active' });
+        const isBanned = (await getDoc(docRef)).data()?.state === 'ban';
+        if (!isBanned) {
+          await updateDoc(docRef, { state: 'active' });
+          return docRef.id;
+        }
+      }),
+    );
+
+    return ids;
+  },
+);
+
+export const deleteDevices = createAsyncThunk(
+  'devices/delete',
+  async ({ idList }: { idList: Array<React.Key> }) => {
+    const ids = await Promise.all(
+      idList.map(async id => {
+        const docRef = doc(db, `/devices/${id}`);
+        await deleteDoc(docRef);
         return docRef.id;
       }),
     );
@@ -94,8 +113,11 @@ export const deactiveDevice = createAsyncThunk(
     const ids = await Promise.all(
       idList.map(async id => {
         const docRef = doc(db, `/devices/${id}`);
-        await updateDoc(docRef, { state: 'in-active' });
-        return docRef.id;
+        const isBanned = (await getDoc(docRef)).data()?.state === 'ban';
+        if (!isBanned) {
+          await updateDoc(docRef, { state: 'in-active' });
+          return docRef.id;
+        }
       }),
     );
 
@@ -103,7 +125,7 @@ export const deactiveDevice = createAsyncThunk(
   },
 );
 
-export const banDevice = createAsyncThunk(
+export const banDevices = createAsyncThunk(
   'devices/banDevice',
   async ({ idList }: { idList: Array<React.Key> }) => {
     const ids = await Promise.all(
@@ -118,11 +140,11 @@ export const banDevice = createAsyncThunk(
   },
 );
 
-export const deleteDevice = createAsyncThunk('devices/delete', async (id: string) => {
-  const docRef = doc(db, `/devices/${id}`);
-  await deleteDoc(docRef);
-  return docRef.id;
-});
+// export const deleteDevice = createAsyncThunk('devices/delete', async (id: string) => {
+//   const docRef = doc(db, `/devices/${id}`);
+//   await deleteDoc(docRef);
+//   return docRef.id;
+// });
 
 export const deviceSlice = createSlice({
   name: 'device',
@@ -169,6 +191,10 @@ export const deviceSlice = createSlice({
           }
         });
       })
+      .addCase(deleteDevices.fulfilled, (state, action) => {
+        const filteredData = state.devices.filter(d => !action.payload.includes(d.id));
+        state.devices = filteredData;
+      })
       .addCase(deactiveDevice.fulfilled, (state, action) => {
         state.edittingDevice = null;
         const arrayList = action.payload;
@@ -178,7 +204,7 @@ export const deviceSlice = createSlice({
           }
         });
       })
-      .addCase(banDevice.fulfilled, (state, action) => {
+      .addCase(banDevices.fulfilled, (state, action) => {
         state.edittingDevice = null;
         const arrayList = action.payload;
         state.devices.map((d, index) => {
@@ -186,13 +212,6 @@ export const deviceSlice = createSlice({
             state.devices[index] = { ...d, state: 'ban' };
           }
         });
-      })
-      .addCase(deleteDevice.fulfilled, (state, action) => {
-        const deleteDeviceIndex = state.devices.findIndex(device => device.id === action.payload);
-
-        if (deleteDeviceIndex !== -1) {
-          state.devices.splice(deleteDeviceIndex, 1);
-        }
       }),
 });
 

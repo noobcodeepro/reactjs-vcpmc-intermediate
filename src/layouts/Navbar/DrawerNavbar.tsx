@@ -17,8 +17,6 @@ const DrawerNavbar = () => {
   const isSelectedNav = (navItem: NavItemType) => {
     if (navItem.to) {
       if (selectedNav.includes(navItem.to)) {
-        console.log('Navitem to', navItem.to);
-        console.log('Selected nav', selectedNav);
         return true;
       } else {
         return false;

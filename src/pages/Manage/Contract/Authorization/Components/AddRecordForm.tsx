@@ -25,8 +25,6 @@ const AddRecordForm = ({
   );
   const onAddRecord = () => {
     const submitData = form.getFieldsValue();
-    console.log(submitData);
-    console.log('contract:', currentContract);
 
     if (currentContract) {
       dispatch(addContract(currentContract))

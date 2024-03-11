@@ -117,15 +117,11 @@ const AuthorizeContract = () => {
   }));
 
   useEffect(() => {
-    dispatch(getContracts())
-      .unwrap()
-      .then(res => {
-        console.log(res);
-      });
+    dispatch(getContracts());
   }, [dispatch]);
   return (
     <>
-      <div className="w-[501px] right-[140px] top-[250px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[501px] right-[140px] top-[250px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <Input
           type="text"
           className="px-6 py-3 text-white bg-transparent focus:bg-transparent hover:bg-transparent placeholder:text-[#727288] border-none focus:ring-0 h-full text-base font-normal font-['Montserrat'] leading-normal"

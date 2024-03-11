@@ -47,9 +47,7 @@ const Profile = () => {
     if (currentUser && avatar) {
       dispatch(updateAvatar({ file: avatar, currentUser }))
         .unwrap()
-        .then(res => {
-          console.log(res);
-
+        .then(() => {
           message.info('Upload avatar thành công!');
           setAvatarModalOpen(false);
           setAvatar(null);
@@ -114,7 +112,6 @@ const Profile = () => {
   const handleStartEditProfile = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     dispatch(authStartUpdate());
-    console.log(editProfile);
   };
   const handleCancelUpdateProfile = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -122,12 +119,7 @@ const Profile = () => {
   };
 
   const handleUpdateProfile = () => {
-    console.log(editProfile);
-    dispatch(saveUpdateProfile(editProfile)).then(res => {
-      console.log(res);
-
-      message.info('Update success');
-    });
+    dispatch(saveUpdateProfile(editProfile));
   };
 
   const userRole = useSelector((state: RootState) => state.auth.others.role);

@@ -48,9 +48,8 @@ const columns: ColumnsType<ExtendPlaylist> = [
       let mapTopics: Array<string> = [];
       if (topics) {
         mapTopics = topics;
-        console.log(mapTopics);
       } else {
-        console.log('Eror');
+        console.log('Error');
       }
       return (
         <>
@@ -96,14 +95,12 @@ const Playlist = () => {
   }));
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(getPlaylists())
-      .unwrap()
-      .then(res => console.log(res));
+    dispatch(getPlaylists());
   }, [dispatch]);
 
   return (
     <>
-      <div className="w-[517px] px-6 py-3 left-[229px] top-[158px] absolute bg-slate-800 rounded-lg justify-between items-center inline-flex">
+      <div className="w-[517px] px-6 py-3 left-[229px] top-[158px] absolute bg-[#2B2B3F] rounded-lg justify-between items-center inline-flex">
         <div className="text-center text-gray-500 text-base font-normal font-['Montserrat'] leading-normal">
           Tên chủ đề, người tạo,...
         </div>
@@ -112,7 +109,7 @@ const Playlist = () => {
       <div className="left-[229px] top-[86px] absolute text-white text-4xl font-bold font-['Montserrat'] leading-[48px]">
         Playlist
       </div>
-      <div className="h-[772px] px-6 py-4 left-[229px] right-[200px] top-[230px] absolute bg-slate-800 bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
+      <div className="h-[772px] px-6 py-4 left-[229px] right-[200px] top-[230px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl flex-col justify-start items-start gap-14 inline-flex">
         <Table columns={columns} dataSource={data} />
       </div>
       <div className="w-8 h-8 left-[1690px] top-[174px] absolute">
@@ -124,7 +121,7 @@ const Playlist = () => {
       <div className="right-[0px] top-[158px] absolute flex-col justify-start items-start inline-flex">
         <div
           onClick={() => navigate('/playlist/add')}
-          className="h-[130px] p-4 bg-slate-800 rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
+          className="h-[130px] p-4 bg-[#2B2B3F] rounded-tl-2xl rounded-bl-2xl flex-col justify-center items-center gap-2.5 flex"
         >
           <div className="p-2.5 bg-gray-500 bg-opacity-50 rounded-[67px] justify-start items-start gap-2.5 inline-flex">
             <div className="w-8 h-8 relative" />

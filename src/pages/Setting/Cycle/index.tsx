@@ -22,7 +22,7 @@ const Cycle = () => {
           Cài đặt hệ thống
         </div>
       </div>
-      <div className="w-[1611px] h-[750px] left-[229px] top-[186px] absolute bg-slate-800 bg-opacity-70 rounded-2xl">
+      <div className="w-[1611px] h-[750px] left-[229px] top-[186px] absolute bg-[#2B2B3F] bg-opacity-70 rounded-2xl">
         <div className="left-[40px] top-[485px] absolute" />
         <div className="left-[40px] top-[40px] absolute text-neutral-200 text-2xl font-bold font-['Montserrat'] leading-normal">
           Cài đặt chu kì đối soát
